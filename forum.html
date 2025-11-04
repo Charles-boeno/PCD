@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fórum - Acessibilidade Física para PCD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:#4a68ff;
+      --bg:#f9f9fb;
+      --text:#222;
+      --muted:#666;
+      --radius:12px;
+      font-family:'Inter', sans-serif;
+    }
+    * {box-sizing:border-box; margin:0; padding:0;}
+    body {
+      background:var(--bg);
+      color:var(--text);
+      padding-bottom:70px;
+    }
+
+    header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 40px;
+      background:white;
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    .logo {
+      display:flex;
+      align-items:center;
+      font-weight:700;
+      font-size:20px;
+      color:var(--primary);
+      font-family:'Poppins', sans-serif;
+      text-decoration:none;
+    }
+
+    .header-social {
+      display:none;
+    }
+
+    .header-social a {
+      color:var(--text);
+      font-size:20px;
+      text-decoration:none;
+      transition:0.2s;
+      margin:0 8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .header-social a:hover {
+      transform:translateY(-2px);
+    }
+
+    .header-social a.facebook {
+      color:#1877F2;
+    }
+
+    .header-social a.instagram {
+      background:linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+
+    .header-social a.youtube {
+      color:#FF0000;
+    }
+
+    nav {
+      display:flex;
+      align-items:center;
+      gap:20px;
+    }
+
+    nav a {
+      text-decoration:none;
+      color:var(--text);
+      font-weight:500;
+      transition:0.2s;
+    }
+
+    nav a:hover {
+      color:var(--primary);
+    }
+
+    nav a.active {
+      color:var(--primary);
+    }
+
+    .search-bar {
+      display:flex;
+      align-items:center;
+      background:#f0f0f5;
+      padding:6px 12px;
+      border-radius:var(--radius);
+      gap:8px;
+    }
+
+    .search-bar input {
+      border:none;
+      background:transparent;
+      outline:none;
+      font-size:14px;
+    }
+
+    .btn {
+      padding:8px 16px;
+      border:none;
+      border-radius:var(--radius);
+      cursor:pointer;
+      font-weight:600;
+      transition:0.2s;
+    }
+
+    .btn-primary {
+      background:var(--primary);
+      color:white;
+    }
+
+    main {
+      max-width:1000px;
+      margin:40px auto;
+      padding:0 40px;
+    }
+
+    .page-header {
+      background:white;
+      padding:30px;
+      border-radius:var(--radius);
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom:30px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .page-header h1 {
+      font-size:42px;
+      color:var(--primary);
+      font-family:'Poppins', sans-serif;
+    }
+
+    .topics {
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+
+    .topic {
+      background:white;
+      padding:25px;
+      border-radius:var(--radius);
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      transition:0.3s;
+      cursor:pointer;
+      display:flex;
+      gap:20px;
+    }
+
+    .topic:hover {
+      box-shadow:0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .topic-image {
+      width:120px;
+      height:120px;
+      object-fit:cover;
+      border-radius:var(--radius);
+      flex-shrink:0;
+    }
+
+    .topic-content {
+      flex:1;
+    }
+
+    .topic-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:start;
+      margin-bottom:15px;
+    }
+
+    .topic-title {
+      font-size:20px;
+      font-weight:600;
+      color:var(--text);
+      margin-bottom:8px;
+    }
+
+    .topic-category {
+      background:#f0f0f5;
+      color:var(--primary);
+      padding:4px 10px;
+      border-radius:15px;
+      font-size:12px;
+      font-weight:600;
+    }
+
+    .topic-excerpt {
+      color:var(--muted);
+      line-height:1.6;
+      margin-bottom:15px;
+    }
+
+    .topic-footer {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding-top:15px;
+      border-top:1px solid #eee;
+    }
+
+    .topic-author {
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .author-avatar {
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:var(--primary);
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:600;
+    }
+
+    .topic-stats {
+      display:flex;
+      gap:20px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* Menu Inferior Fixo */
+    .mobile-bottom-nav {
+      display:flex !important;
+      position:fixed !important;
+      bottom:0 !important;
+      left:0 !important;
+      right:0 !important;
+      width:100% !important;
+      background:white !important;
+      box-shadow:0 -2px 10px rgba(0,0,0,0.1) !important;
+      z-index:9999 !important;
+      padding:12px 0 !important;
+      justify-content:space-around !important;
+      align-items:center !important;
+      border-top:1px solid #eee;
+    }
+
+    .mobile-nav-item {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      color:var(--muted);
+      padding:8px 12px;
+      transition:0.2s;
+      flex:1;
+      min-width:0;
+    }
+
+    .mobile-nav-item.active {
+      color:var(--primary);
+    }
+
+    .mobile-nav-item span {
+      font-size:24px;
+      margin-bottom:4px;
+    }
+
+    .mobile-nav-item label {
+      font-size:11px;
+      font-weight:500;
+      text-align:center;
+    }
+
+    .mobile-nav-item:hover {
+      color:var(--primary);
+    }
+
+    @media (max-width:900px){
+      header {
+        flex-wrap:wrap;
+        gap:15px;
+        padding:12px 20px;
+      }
+
+      header nav,
+      header .search-bar,
+      header > div:last-child:not(.header-social) {
+        display:none !important;
+      }
+
+      header button.btn {
+        display:none !important;
+      }
+
+      .header-social {
+        display:flex !important;
+        align-items:center;
+        gap:10px;
+        margin-left:auto;
+      }
+
+      main {padding:0 20px;}
+      .topic {flex-direction:column;}
+      .topic-image {width:100%; height:200px;}
+      .page-header {flex-direction:column; align-items:start; gap:15px;}
+      .page-header h1 {font-size:32px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="menu.html" class="logo">VoiceSite</a>
+    <nav>
+      <a href="menu.html">Menu</a>
+      <a href="blog.html">Blog</a>
+      <a href="forum.html" class="active">Fórum</a>
+      <a href="vagas.html">Vagas</a>
+      <a href="icones.html">Ícones</a>
+    </nav>
+    <div class="search-bar">
+      <span>🔍</span>
+      <input type="text" placeholder="Pesquisar...">
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button class="btn" onclick="window.location.href='menu.html'">Voltar</button>
+    </div>
+    <!-- Redes Sociais - Mobile -->
+    <div class="header-social">
+      <a href="#" target="_blank" title="Facebook" class="facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+      <a href="#" target="_blank" title="Instagram" class="instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+      <a href="#" target="_blank" title="YouTube" class="youtube">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div>
+        <h1>💬 Fórum de Discussão</h1>
+        <p style="color:var(--muted); margin-top:8px;">Comunidade de pessoas com deficiência e profissionais discutindo acessibilidade</p>
+      </div>
+      <button class="btn btn-primary">+ Nova Discussão</button>
+    </div>
+
+    <div class="topics">
+      <div class="topic">
+        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=300&q=80" alt="Banheiro adaptado" class="topic-image" />
+        <div class="topic-content">
+          <div class="topic-header">
+            <div style="flex:1;">
+              <div class="topic-title">Como adaptar banheiro para cadeirante com orçamento limitado?</div>
+              <span class="topic-category">Adaptações Residenciais</span>
+            </div>
+          </div>
+          <div class="topic-excerpt">
+          Estou precisando adaptar o banheiro da minha casa para uso de cadeira de rodas, mas tenho um orçamento limitado. Quais são as adaptações mais essenciais e onde posso encontrar fornecedores com bons preços?
+        </div>
+        <div class="topic-footer">
+          <div class="topic-author">
+            <div class="author-avatar">MC</div>
+            <span>Maria C.</span>
+          </div>
+          <div class="topic-stats">
+            <span>💬 12 respostas</span>
+            <span>👁️ 156 visualizações</span>
+            <span>⏰ há 2 horas</span>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <img src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?auto=format&fit=crop&w=300&q=80" alt="Elevador residencial" class="topic-image" />
+        <div class="topic-content">
+          <div class="topic-header">
+          <div style="flex:1;">
+            <div class="topic-title">Experiências com elevadores residenciais para cadeirantes</div>
+            <span class="topic-category">Tecnologia Assistiva</span>
+          </div>
+        </div>
+        <div class="topic-excerpt">
+          Estou pesquisando sobre instalação de elevador residencial. Alguém já instalou? Quais marcas recomendam? Como foi o processo de instalação e manutenção?
+        </div>
+        <div class="topic-footer">
+          <div class="topic-author">
+            <div class="author-avatar">JS</div>
+            <span>João S.</span>
+          </div>
+          <div class="topic-stats">
+            <span>💬 8 respostas</span>
+            <span>👁️ 98 visualizações</span>
+            <span>⏰ há 5 horas</span>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80" alt="Inclusão no trabalho" class="topic-image" />
+        <div class="topic-content">
+          <div class="topic-header">
+            <div style="flex:1;">
+              <div class="topic-title">Empresas estão cumprindo a Lei de Cotas para PCD?</div>
+            <span class="topic-category">Legislação</span>
+          </div>
+        </div>
+        <div class="topic-excerpt">
+          Gostaria de saber experiências de vocês com empresas que contratam PCD. As empresas estão realmente cumprindo a lei de cotas? Como está a acessibilidade física nos locais de trabalho?
+        </div>
+        <div class="topic-footer">
+          <div class="topic-author">
+            <div class="author-avatar">AC</div>
+            <span>Ana C.</span>
+          </div>
+          <div class="topic-stats">
+            <span>💬 24 respostas</span>
+            <span>👁️ 342 visualizações</span>
+            <span>⏰ há 1 dia</span>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=300&q=80" alt="Calçadas acessíveis" class="topic-image" />
+        <div class="topic-content">
+          <div class="topic-header">
+            <div style="flex:1;">
+              <div class="topic-title">Dicas para tornar calçadas acessíveis em condomínios</div>
+            <span class="topic-category">Arquitetura</span>
+          </div>
+        </div>
+        <div class="topic-excerpt">
+          Moro em um condomínio e quero propor melhorias nas calçadas e áreas comuns para torná-las mais acessíveis. Alguém já passou por isso? Quais foram os principais desafios?
+        </div>
+        <div class="topic-footer">
+          <div class="topic-author">
+            <div class="author-avatar">PL</div>
+            <span>Paulo L.</span>
+          </div>
+          <div class="topic-stats">
+            <span>💬 15 respostas</span>
+            <span>👁️ 201 visualizações</span>
+            <span>⏰ há 2 dias</span>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=300&q=80" alt="Cadeira de rodas" class="topic-image" />
+        <div class="topic-content">
+          <div class="topic-header">
+            <div style="flex:1;">
+              <div class="topic-title">Recomendações de cadeiras de rodas para uso diário</div>
+            <span class="topic-category">Equipamentos</span>
+          </div>
+        </div>
+        <div class="topic-excerpt">
+          Preciso comprar uma nova cadeira de rodas para uso diário. Quais modelos vocês recomendam? O que devo considerar na escolha? Orçamento médio de R$ 3.000 a R$ 5.000.
+        </div>
+        <div class="topic-footer">
+          <div class="topic-author">
+            <div class="author-avatar">RF</div>
+            <span>Roberto F.</span>
+          </div>
+          <div class="topic-stats">
+            <span>💬 19 respostas</span>
+            <span>👁️ 278 visualizações</span>
+            <span>⏰ há 3 dias</span>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <img src="https://images.unsplash.com/photo-1594481931201-7cc9c6b4e5b4?auto=format&fit=crop&w=300&q=80" alt="Acessibilidade educacional" class="topic-image" />
+        <div class="topic-content">
+          <div class="topic-header">
+            <div style="flex:1;">
+              <div class="topic-title">Acessibilidade em universidades: sua experiência</div>
+            <span class="topic-category">Educação</span>
+          </div>
+        </div>
+        <div class="topic-excerpt">
+          Estudantes com deficiência física, como está a acessibilidade nas universidades onde estudam ou estudaram? Quais adaptações existem e o que ainda precisa melhorar?
+        </div>
+        <div class="topic-footer">
+          <div class="topic-author">
+            <div class="author-avatar">LM</div>
+            <span>Lucas M.</span>
+          </div>
+          <div class="topic-stats">
+            <span>💬 31 respostas</span>
+            <span>👁️ 445 visualizações</span>
+            <span>⏰ há 4 dias</span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Menu Inferior Fixo -->
+  <nav class="mobile-bottom-nav" style="display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; background: white !important; z-index: 9999 !important;">
+    <a href="menu.html" class="mobile-nav-item">
+      <span>🏠</span>
+      <label>Início</label>
+    </a>
+    <a href="blog.html" class="mobile-nav-item">
+      <span>📚</span>
+      <label>Blog</label>
+    </a>
+    <a href="forum.html" class="mobile-nav-item active">
+      <span>💬</span>
+      <label>Fórum</label>
+    </a>
+    <a href="vagas.html" class="mobile-nav-item">
+      <span>💼</span>
+      <label>Vagas</label>
+    </a>
+  </nav>
+</body>
+</html>
+

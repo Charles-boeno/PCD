@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ícones - Acessibilidade Física para PCD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:#4a68ff;
+      --bg:#f9f9fb;
+      --text:#222;
+      --muted:#666;
+      --radius:12px;
+      font-family:'Inter', sans-serif;
+    }
+    * {box-sizing:border-box; margin:0; padding:0;}
+    body {
+      background:var(--bg);
+      color:var(--text);
+      padding-bottom:70px;
+    }
+
+    header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 40px;
+      background:white;
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    .logo {
+      display:flex;
+      align-items:center;
+      font-weight:700;
+      font-size:20px;
+      color:var(--primary);
+      font-family:'Poppins', sans-serif;
+      text-decoration:none;
+    }
+
+    .header-social {
+      display:none;
+    }
+
+    .header-social a {
+      color:var(--text);
+      font-size:20px;
+      text-decoration:none;
+      transition:0.2s;
+      margin:0 8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .header-social a:hover {
+      transform:translateY(-2px);
+    }
+
+    .header-social a.facebook {
+      color:#1877F2;
+    }
+
+    .header-social a.instagram {
+      background:linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+
+    .header-social a.youtube {
+      color:#FF0000;
+    }
+
+    nav {
+      display:flex;
+      align-items:center;
+      gap:20px;
+    }
+
+    nav a {
+      text-decoration:none;
+      color:var(--text);
+      font-weight:500;
+      transition:0.2s;
+    }
+
+    nav a:hover {
+      color:var(--primary);
+    }
+
+    nav a.active {
+      color:var(--primary);
+    }
+
+    .search-bar {
+      display:flex;
+      align-items:center;
+      background:#f0f0f5;
+      padding:6px 12px;
+      border-radius:var(--radius);
+      gap:8px;
+    }
+
+    .search-bar input {
+      border:none;
+      background:transparent;
+      outline:none;
+      font-size:14px;
+    }
+
+    .btn {
+      padding:8px 16px;
+      border:none;
+      border-radius:var(--radius);
+      cursor:pointer;
+      font-weight:600;
+      transition:0.2s;
+    }
+
+    main {
+      max-width:1200px;
+      margin:40px auto;
+      padding:0 40px;
+    }
+
+    .page-header {
+      background:white;
+      padding:40px;
+      border-radius:var(--radius);
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom:30px;
+      text-align:center;
+    }
+
+    .page-header h1 {
+      font-size:42px;
+      color:var(--primary);
+      margin-bottom:15px;
+      font-family:'Poppins', sans-serif;
+    }
+
+    .categories {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:30px;
+      margin-bottom:40px;
+    }
+
+    .category {
+      background:white;
+      padding:30px;
+      border-radius:var(--radius);
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .category h3 {
+      font-size:24px;
+      color:var(--primary);
+      margin-bottom:20px;
+      font-family:'Poppins', sans-serif;
+      text-align:center;
+    }
+
+    .icons-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));
+      gap:20px;
+    }
+
+    .icon-item {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:20px;
+      background:#f9f9fb;
+      border-radius:var(--radius);
+      transition:0.3s;
+      cursor:pointer;
+    }
+
+    .icon-item:hover {
+      background:#f0f0f5;
+      transform:translateY(-3px);
+    }
+
+    .icon-display {
+      font-size:48px;
+      margin-bottom:10px;
+    }
+
+    .icon-name {
+      font-size:14px;
+      color:var(--text);
+      text-align:center;
+      font-weight:500;
+    }
+
+    .icon-description {
+      font-size:12px;
+      color:var(--muted);
+      text-align:center;
+      margin-top:5px;
+    }
+
+    .download-section {
+      background:white;
+      padding:30px;
+      border-radius:var(--radius);
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      text-align:center;
+    }
+
+    .download-btn {
+      background:var(--primary);
+      color:white;
+      padding:12px 30px;
+      border:none;
+      border-radius:var(--radius);
+      cursor:pointer;
+      font-weight:600;
+      font-size:16px;
+      margin-top:15px;
+      transition:0.2s;
+    }
+
+    .download-btn:hover {
+      background:#3a56e6;
+    }
+
+    /* Menu Inferior Fixo */
+    .mobile-bottom-nav {
+      display:flex !important;
+      position:fixed !important;
+      bottom:0 !important;
+      left:0 !important;
+      right:0 !important;
+      width:100% !important;
+      background:white !important;
+      box-shadow:0 -2px 10px rgba(0,0,0,0.1) !important;
+      z-index:9999 !important;
+      padding:12px 0 !important;
+      justify-content:space-around !important;
+      align-items:center !important;
+      border-top:1px solid #eee;
+    }
+
+    .mobile-nav-item {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      color:var(--muted);
+      padding:8px 12px;
+      transition:0.2s;
+      flex:1;
+      min-width:0;
+    }
+
+    .mobile-nav-item.active {
+      color:var(--primary);
+    }
+
+    .mobile-nav-item span {
+      font-size:24px;
+      margin-bottom:4px;
+    }
+
+    .mobile-nav-item label {
+      font-size:11px;
+      font-weight:500;
+      text-align:center;
+    }
+
+    .mobile-nav-item:hover {
+      color:var(--primary);
+    }
+
+    @media (max-width:900px){
+      header {
+        flex-wrap:wrap;
+        gap:15px;
+        padding:12px 20px;
+      }
+
+      header nav,
+      header .search-bar,
+      header > div:last-child:not(.header-social) {
+        display:none !important;
+      }
+
+      header button.btn {
+        display:none !important;
+      }
+
+      .header-social {
+        display:flex !important;
+        align-items:center;
+        gap:10px;
+        margin-left:auto;
+      }
+
+      main {padding:0 20px;}
+      .page-header h1 {font-size:32px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="menu.html" class="logo">VoiceSite</a>
+    <nav>
+      <a href="menu.html">Menu</a>
+      <a href="blog.html">Blog</a>
+      <a href="forum.html">Fórum</a>
+      <a href="vagas.html">Vagas</a>
+      <a href="icones.html" class="active">Ícones</a>
+    </nav>
+    <div class="search-bar">
+      <span>🔍</span>
+      <input type="text" placeholder="Pesquisar...">
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button class="btn" onclick="window.location.href='menu.html'">Voltar</button>
+    </div>
+    <!-- Redes Sociais - Mobile -->
+    <div class="header-social">
+      <a href="#" target="_blank" title="Facebook" class="facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+      <a href="#" target="_blank" title="Instagram" class="instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+      <a href="#" target="_blank" title="YouTube" class="youtube">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h1>🎨 Ícones e Símbolos de Acessibilidade</h1>
+      <p style="color:var(--muted);">Biblioteca completa de símbolos e ícones para uso em projetos de acessibilidade</p>
+    </div>
+
+    <div class="categories">
+      <div class="category">
+        <h3>♿ Deficiência Física</h3>
+        <div class="icons-grid">
+          <div class="icon-item">
+            <div class="icon-display">♿</div>
+            <div class="icon-name">Cadeirante</div>
+            <div class="icon-description">Símbolo internacional</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🦽</div>
+            <div class="icon-name">Cadeira Motorizada</div>
+            <div class="icon-description">Mobilidade assistida</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🦯</div>
+            <div class="icon-name">Bengala</div>
+            <div class="icon-description">Mobilidade reduzida</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🚶</div>
+            <div class="icon-name">Caminhada Assistida</div>
+            <div class="icon-description">Andador</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h3>👁️ Deficiência Visual</h3>
+        <div class="icons-grid">
+          <div class="icon-item">
+            <div class="icon-display">👁️</div>
+            <div class="icon-name">Baixa Visão</div>
+            <div class="icon-description">Acessibilidade visual</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🕶️</div>
+            <div class="icon-name">Cegueira</div>
+            <div class="icon-description">Deficiência visual</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">📖</div>
+            <div class="icon-name">Braille</div>
+            <div class="icon-description">Sistema de leitura</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🔊</div>
+            <div class="icon-name">Áudio</div>
+            <div class="icon-description">Descrição sonora</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h3>👂 Deficiência Auditiva</h3>
+        <div class="icons-grid">
+          <div class="icon-item">
+            <div class="icon-display">👂</div>
+            <div class="icon-name">Deficiência Auditiva</div>
+            <div class="icon-description">Acessibilidade sonora</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">👋</div>
+            <div class="icon-name">Libras</div>
+            <div class="icon-description">Língua de sinais</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">📺</div>
+            <div class="icon-name">Legendas</div>
+            <div class="icon-description">Legendagem</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🎧</div>
+            <div class="icon-name">Audição Assistida</div>
+            <div class="icon-description">Amplificação</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h3>🏢 Infraestrutura</h3>
+        <div class="icons-grid">
+          <div class="icon-item">
+            <div class="icon-display">🛗</div>
+            <div class="icon-name">Elevador</div>
+            <div class="icon-description">Acesso vertical</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">📐</div>
+            <div class="icon-name">Rampa</div>
+            <div class="icon-description">Acesso inclinado</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🚽</div>
+            <div class="icon-name">Banheiro Acessível</div>
+            <div class="icon-description">Sanitário adaptado</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🅿️</div>
+            <div class="icon-name">Estacionamento</div>
+            <div class="icon-description">Vaga reservada</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h3>🔧 Serviços</h3>
+        <div class="icons-grid">
+          <div class="icon-item">
+            <div class="icon-display">ℹ️</div>
+            <div class="icon-name">Informação</div>
+            <div class="icon-description">Atendimento</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">📞</div>
+            <div class="icon-name">Telefone</div>
+            <div class="icon-description">Contato acessível</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🌐</div>
+            <div class="icon-name">Website</div>
+            <div class="icon-description">Acessível web</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">📱</div>
+            <div class="icon-name">App Acessível</div>
+            <div class="icon-description">Aplicativo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h3>✅ Certificações</h3>
+        <div class="icons-grid">
+          <div class="icon-item">
+            <div class="icon-display">✅</div>
+            <div class="icon-name">Acessível</div>
+            <div class="icon-description">Certificado</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">🏆</div>
+            <div class="icon-name">Inclusivo</div>
+            <div class="icon-description">Prêmio</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">⭐</div>
+            <div class="icon-name">Qualificado</div>
+            <div class="icon-description">Selos</div>
+          </div>
+          <div class="icon-item">
+            <div class="icon-display">📜</div>
+            <div class="icon-name">NBR 9050</div>
+            <div class="icon-description">Norma técnica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="download-section">
+      <h3 style="color:var(--primary); margin-bottom:10px; font-family:'Poppins', sans-serif;">Baixe o Kit Completo</h3>
+      <p style="color:var(--muted);">Download de todos os ícones em alta resolução (PNG, SVG) para uso em seus projetos</p>
+      <button class="download-btn">📥 Baixar Kit de Ícones</button>
+    </div>
+  </main>
+
+  <!-- Menu Inferior Fixo -->
+  <nav class="mobile-bottom-nav" style="display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; background: white !important; z-index: 9999 !important;">
+    <a href="menu.html" class="mobile-nav-item">
+      <span>🏠</span>
+      <label>Início</label>
+    </a>
+    <a href="blog.html" class="mobile-nav-item">
+      <span>📚</span>
+      <label>Blog</label>
+    </a>
+    <a href="forum.html" class="mobile-nav-item">
+      <span>💬</span>
+      <label>Fórum</label>
+    </a>
+    <a href="vagas.html" class="mobile-nav-item">
+      <span>💼</span>
+      <label>Vagas</label>
+    </a>
+  </nav>
+</body>
+</html>
+

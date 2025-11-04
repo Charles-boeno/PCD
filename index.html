@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acessibilidade+</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      :root {
+        --bg: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        --card-bg: rgba(255, 255, 255, 0.95);
+        --text: #1a1a1a;
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --secondary: #0ea5e9;
+        --accent: #10b981;
+        --contrast-bg: #000;
+        --contrast-text: #fff;
+        --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+        transition: all 0.3s ease;
+      }
+      
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 1rem 2rem;
+      }
+      
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      
+      header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      nav {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      
+      nav button {
+        background: transparent;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text);
+        cursor: pointer;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+      
+      nav button:hover {
+        background: rgba(99, 102, 241, 0.1);
+        transform: translateY(-2px);
+      }
+      
+      nav button.active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      }
+      
+      .controls {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      
+      .controls button {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+      
+      .controls button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+      }
+      
+      main {
+        max-width: 1200px;
+        margin: 3rem auto;
+        padding: 0 2rem;
+      }
+      
+      .page {
+        animation: fadeIn 0.5s ease;
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .slider {
+        position: relative;
+        width: 100%;
+        height: 450px;
+        overflow: hidden;
+        border-radius: 20px;
+        margin-bottom: 3rem;
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .slider img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.8s ease, transform 0.8s ease;
+        display: block;
+      }
+      
+      .slider a {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+      
+      .slider:hover img {
+        transform: scale(1.05);
+      }
+      
+      .slider .caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        color: white;
+        padding: 2rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+        z-index: 2;
+        pointer-events: none;
+      }
+      
+      .slider button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+      }
+      
+      .slider button:hover {
+        background: white;
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      }
+      
+      .slider .prev {
+        left: 20px;
+      }
+      
+      .slider .next {
+        right: 20px;
+      }
+      
+      .hero-content {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow-lg);
+        margin-bottom: 3rem;
+      }
+      
+      .hero-content h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .hero-content p {
+        font-size: 1.2rem;
+        color: #555;
+        line-height: 1.8;
+      }
+      
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+      
+      .feature-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+      
+      footer {
+        background: linear-gradient(135deg, #1e3a8a 0%, #0ea5e9 100%);
+        padding: 2rem 1.5rem 1rem;
+        margin-top: 4rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      }
+      
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .footer-section {
+        position: relative;
+      }
+      
+      .footer-section h3 {
+        color: white;
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .footer-section p {
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.85rem;
+      }
+      
+      .footer-section strong {
+        color: white;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.3rem;
+        font-size: 0.9rem;
+      }
+      
+      .footer-section a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        padding: 0.1rem 0;
+        border-bottom: 1px solid transparent;
+        font-size: 0.85rem;
+      }
+      
+      .footer-section a:hover {
+        color: white;
+        border-bottom-color: white;
+        transform: translateX(5px);
+      }
+      
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.8rem;
+      }
+      
+      .footer-bottom p {
+        margin: 0;
+      }
+      
+      @media (max-width: 768px) {
+        footer {
+          padding: 1.5rem 1rem 0.8rem;
+          margin-top: 2rem;
+        }
+        
+        .footer-content {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0.8rem;
+          margin-bottom: 0.8rem;
+        }
+        
+        .footer-section h3 {
+          font-size: 0.85rem;
+          margin-bottom: 0.5rem;
+        }
+        
+        .footer-section p {
+          line-height: 1.4;
+          margin-bottom: 0.3rem;
+          font-size: 0.7rem;
+        }
+        
+        .footer-section strong {
+          font-size: 0.75rem;
+          margin-bottom: 0.2rem;
+        }
+        
+        .footer-section a {
+          font-size: 0.7rem;
+          padding: 0.05rem 0;
+        }
+        
+        .footer-bottom {
+          padding-top: 0.8rem;
+          font-size: 0.65rem;
+        }
+      }
+
+      /* Menu Inferior Fixo */
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 2px solid #e5e7eb;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0.5rem 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 1001;
+        backdrop-filter: blur(10px);
+      }
+
+      .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.5rem 0.8rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #666;
+        font-size: 0.75rem;
+        border-radius: 10px;
+        min-width: 60px;
+      }
+
+      .bottom-nav-item:hover {
+        background: #f0f0f5;
+        color: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .bottom-nav-item.active {
+        color: var(--primary);
+        background: rgba(59, 130, 246, 0.1);
+      }
+
+      .nav-icon {
+        font-size: 1.5rem;
+        display: block;
+      }
+
+      .nav-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* Espaço para o menu inferior no conteúdo */
+      main {
+        padding-bottom: 80px;
+      }
+
+      @media (min-width: 768px) {
+        .bottom-nav {
+          display: none;
+        }
+      }
+      
+      .whatsapp-float {
+        position: fixed;
+        bottom: 85px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: #25D366;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        z-index: 999;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: pulse 2s infinite;
+      }
+      
+      @media (min-width: 768px) {
+        .whatsapp-float {
+          bottom: 30px;
+          right: 30px;
+        }
+      }
+      
+      .whatsapp-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+      }
+      
+      .whatsapp-float svg {
+        width: 35px;
+        height: 35px;
+        fill: white;
+      }
+      
+      @keyframes pulse {
+        0%, 100% {
+          box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        }
+        50% {
+          box-shadow: 0 4px 30px rgba(37, 211, 102, 0.8);
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .whatsapp-float {
+          width: 60px;
+          height: 60px;
+          bottom: 85px;
+          right: 30px;
+          display: flex;
+        }
+        
+        .whatsapp-float svg {
+          width: 35px;
+          height: 35px;
+        }
+      }
+      
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        animation: fadeIn 0.3s ease;
+      }
+      
+      .modal-content {
+        background: white;
+        padding: 3rem;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 450px;
+        box-shadow: var(--shadow-lg);
+        animation: slideUp 0.3s ease;
+      }
+      
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      
+      .modal-content h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .modal-content input {
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 10px;
+        border: 2px solid #e5e7eb;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+      
+      .modal-content input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      }
+      
+      .modal-content button {
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+      
+      .modal-content button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+      }
+      
+      .link {
+        color: var(--primary);
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      .link:hover {
+        text-decoration: underline;
+      }
+      
+      body.contrast {
+        background: var(--custom-bg, #000) !important;
+      }
+      
+      .color-picker-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        justify-content: center;
+        align-items: center;
+        z-index: 2001;
+        animation: fadeIn 0.3s ease;
+      }
+      
+      .color-picker-content {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 700px;
+        box-shadow: var(--shadow-lg);
+        animation: slideUp 0.3s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      
+      body.contrast .color-picker-content {
+        background: var(--custom-card-bg, #222) !important;
+        color: var(--custom-text, #fff) !important;
+      }
+      
+      body.contrast .color-group label {
+        color: var(--custom-text, #fff) !important;
+      }
+      
+      .color-picker-content h3 {
+        margin-bottom: 1.5rem;
+        color: var(--primary);
+        text-align: center;
+      }
+      
+      .color-group {
+        margin-bottom: 1.5rem;
+      }
+      
+      .color-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+      }
+      
+      .color-input-group {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      
+      .color-input-group input[type="color"] {
+        width: 60px;
+        height: 50px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      
+      .color-input-group input[type="text"] {
+        flex: 1;
+        padding: 0.8rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 1rem;
+      }
+      
+      .color-presets-large {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      
+      .preset-card {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 15px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .preset-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      }
+      
+      .preset-preview {
+        width: 100%;
+        height: 80px;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+      
+      .preset-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      
+      .preset-info strong {
+        font-size: 1.1rem;
+        color: #333;
+      }
+      
+      .preset-btn {
+        padding: 1rem;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .preset-btn:hover {
+        transform: scale(1.05);
+        border-color: var(--primary);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      }
+      
+      .color-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      
+      .color-buttons button {
+        flex: 1;
+        padding: 1rem;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-apply {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+      }
+      
+      .btn-reset {
+        background: #f0f0f5;
+        color: #333;
+      }
+      
+      .btn-apply:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+      }
+      
+      .btn-reset:hover {
+        background: #e0e0e5;
+      }
+      
+      .article, .topic, .job {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+      }
+      
+      .article:hover, .topic:hover, .job:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+      
+      .article-header, .topic-header, .job-header {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        align-items: start;
+      }
+      
+      .article-category, .topic-category {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      
+      .article-image, .topic-image, .job-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 15px;
+        margin-bottom: 1rem;
+      }
+      
+      .article h3, .topic-title, .job-title {
+        font-size: 1.5rem;
+        color: var(--text);
+        margin-bottom: 1rem;
+      }
+      
+      .job-salary {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      
+      .apply-btn {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .apply-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+      }
+      
+      .job-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px solid #eee;
+      }
+      
+      .filters {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+      
+      .filter-btn {
+        background: var(--card-bg);
+        border: 2px solid #e5e7eb;
+        padding: 0.6rem 1.5rem;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      .filter-btn.active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border-color: transparent;
+      }
+      
+      .topic-stats {
+        display: flex;
+        gap: 1.5rem;
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+      }
+      
+      .author-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-right: 0.5rem;
+      }
+      
+      .topic-author {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+      }
+      
+      .desktop-only-text {
+        display: block;
+      }
+      
+      @media (max-width: 768px) {
+        .desktop-only-text {
+          display: none !important;
+        }
+        
+        .desktop-only-cards {
+          display: none !important;
+        }
+        
+        header {
+          padding: 0.5rem 1rem;
+        }
+        
+        .header-content {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: flex-start;
+        }
+        
+        nav {
+          display: none;
+        }
+        
+        .controls {
+          display: flex;
+          gap: 0.5rem;
+          margin-left: auto;
+          margin-top: 0;
+          padding-top: 0;
+        }
+        
+        .controls button {
+          padding: 0.2rem 0.5rem;
+          font-size: 0.7rem;
+          margin: 0;
+        }
+        
+        header h1 {
+          font-size: 1.2rem;
+          margin: 0;
+          padding-top: 0;
+        }
+        
+        .slider {
+          height: 300px;
+        }
+        
+        .hero-content h2 {
+          font-size: 2rem;
+        }
+        
+        .hero-content {
+          padding: 1rem;
+          margin-bottom: 1rem;
+        }
+        
+        .hero-content h2 {
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+        }
+        
+        .hero-content p {
+          font-size: 0.9rem;
+          line-height: 1.5;
+        }
+        
+        .filters {
+          display: flex;
+          gap: 0.4rem;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          margin-bottom: 1.5rem;
+          padding-bottom: 0.5rem;
+        }
+        
+        .filter-btn {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.75rem;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>✨ Acessibilidade+</h1>
+      <nav>
+        <button class="active" onclick="showPage('home', event)">Início</button>
+        <button onclick="showPage('blog', event)">Blog</button>
+        <button onclick="showPage('forum', event)">Fórum</button>
+        <button onclick="showPage('vagas', event)">Vagas</button>
+        <button onclick="showPage('contato', event)">Contato</button>
+      </nav>
+      <div class="controls">
+          <button onclick="toggleContrast()">🎨 Contraste</button>
+          <button onclick="toggleLogin()">🔐 Entrar</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="content" style="padding-bottom: 80px;">
+      <div id="home" class="page">
+        <div class="slider" aria-label="Imagens sobre acessibilidade">
+          <a href="#" id="slide-link">
+          <img
+              src="img/produto-Inclusao-A-Importancia-da-Acessibilidade-Fisica-no-IPA.webp"
+            alt="Acessibilidade e Inclusão"
+            id="slide-img"
+          />
+          </a>
+          <div class="caption" id="slide-caption">
+            Inclusão é movimento, é liberdade.
+          </div>
+          <button class="prev" onclick="prevSlide()" aria-label="Slide anterior">◀</button>
+          <button class="next" onclick="nextSlide()" aria-label="Próximo slide">▶</button>
+        </div>
+        
+        <div class="hero-content">
+        <h2>Acessibilidade para Todos</h2>
+        <p>
+          Nosso portal conecta pessoas com deficiência a oportunidades, eventos
+            e informações sobre acessibilidade física e digital. Juntos, construímos
+            um mundo mais inclusivo e acessível para todos.
+        </p>
+      </div>
+
+        <div class="hero-content" style="margin-top: 2rem;">
+          <h2 style="text-align: center; margin-bottom: 2rem;">Sobre Acessibilidade Física para PCD</h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <div>
+              <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 O que é Acessibilidade Física?</h3>
+              <p style="line-height: 1.8; color: #555;">
+                Acessibilidade física é a eliminação de barreiras arquitetônicas, urbanísticas e nos transportes que impedem ou dificultam o acesso e uso de espaços, equipamentos e serviços por pessoas com deficiência ou mobilidade reduzida. Isso inclui rampas, elevadores, banheiros adaptados, sinalização adequada e muito mais.
+              </p>
+            </div>
+            
+            <div class="desktop-only-text">
+              <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 1rem;">📐 Normas e Legislação</h3>
+              <p style="line-height: 1.8; color: #555;">
+                A NBR 9050 estabelece os critérios técnicos para acessibilidade em edificações no Brasil. A Lei Brasileira de Inclusão (LBI) garante direitos e estabelece que todos os espaços públicos e privados devem ser acessíveis. A adequação não é apenas uma questão legal, mas um direito fundamental.
+              </p>
+            </div>
+            
+            <div class="desktop-only-text">
+              <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 1rem;">♿ Adaptações Essenciais</h3>
+              <p style="line-height: 1.8; color: #555;">
+                Rampas com inclinação adequada, corredores com largura mínima de 1,50m, portas com largura de 0,80m, banheiros adaptados, elevadores acessíveis, sinalização tátil e visual, estacionamentos reservados e barras de apoio são alguns dos elementos fundamentais para garantir acessibilidade.
+              </p>
+            </div>
+          </div>
+
+          <div class="desktop-only-text" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(14, 165, 233, 0.1)); padding: 2rem; border-radius: 15px; margin-top: 2rem;">
+            <h3 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 1rem; text-align: center;">💡 Importância da Inclusão</h3>
+            <p style="line-height: 1.8; color: #555; text-align: center; max-width: 800px; margin: 0 auto;">
+              Quando espaços são acessíveis, pessoas com deficiência podem participar plenamente da vida em sociedade - trabalhar, estudar, se divertir e viver com autonomia. A acessibilidade física não beneficia apenas pessoas com deficiência, mas também idosos, gestantes, pessoas com carrinhos de bebê e qualquer pessoa com mobilidade temporariamente reduzida. É um investimento em uma sociedade mais justa e inclusiva para todos.
+            </p>
+          </div>
+
+          <div class="desktop-only-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🛗</div>
+              <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Elevadores</h4>
+              <p style="color: #666; font-size: 0.9rem;">Acesso vertical com botões em Braille e altura adequada</p>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📐</div>
+              <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Rampas</h4>
+              <p style="color: #666; font-size: 0.9rem;">Inclinação máxima de 8,33% conforme NBR 9050</p>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🚽</div>
+              <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Banheiros</h4>
+              <p style="color: #666; font-size: 0.9rem;">Adaptados com barras de apoio e espaço adequado</p>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🅿️</div>
+              <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Estacionamento</h4>
+              <p style="color: #666; font-size: 0.9rem;">Vagas reservadas próximas às entradas</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="features">
+          <div class="feature-card">
+            <h3>📚 Blog</h3>
+            <p>Dicas, notícias e novidades sobre acessibilidade e inclusão.</p>
+          </div>
+          <div class="feature-card">
+            <h3>💬 Fórum</h3>
+            <p>Participe de discussões e compartilhe experiências.</p>
+          </div>
+          <div class="feature-card">
+            <h3>💼 Vagas</h3>
+            <p>Oportunidades de emprego inclusivas e acessíveis.</p>
+          </div>
+        </div>
+
+        <!-- Mapa de Localização -->
+        <div class="hero-content" style="margin-top: 3rem;">
+          <h3 style="margin-bottom: 1rem; color: var(--primary); text-align: center;">📍 Nossa Localização</h3>
+          <p style="text-align: center; margin-bottom: 1.5rem; color: #666;">
+            Rua Principal, 123 - Centro<br>
+            Toledo, PR - CEP: 85900-000
+          </p>
+          <div style="width: 100%; height: 500px; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-lg); margin-top: 1.5rem;">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3661.5!2d-53.7423!3d-24.7146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94f3f3f3f3f3f3f3%3A0x3f3f3f3f3f3f3f3f!2sToledo%2C%20PR!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr" 
+              width="100%" 
+              height="500" 
+              style="border:0; display: block;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Localização em Toledo, PR">
+            </iframe>
+          </div>
+        </div>
+      </div>
+      
+      <div id="blog" class="page" style="display: none">
+        <div class="hero-content">
+          <h2>📚 Blog de Acessibilidade</h2>
+          <p>Artigos, dicas e notícias sobre acessibilidade física para pessoas com deficiência</p>
+      </div>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Normas Técnicas</span>
+            <span style="color: #666;">15 Jan 2024</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?auto=format&fit=crop&w=800&q=80" alt="Rampa de acesso" class="article-image" />
+          <h3>NBR 9050: Guia Completo de Acessibilidade em Edificações</h3>
+          <p>A NBR 9050 é a norma brasileira que estabelece critérios e parâmetros técnicos para acessibilidade em edificações, mobiliário, espaços e equipamentos urbanos. Este artigo explora os principais pontos da norma, incluindo dimensões de rampas, corredores, portas e banheiros acessíveis.</p>
+        </article>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Tecnologia Assistiva</span>
+            <span style="color: #666;">12 Jan 2024</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=800&q=80" alt="Tecnologia assistiva" class="article-image" />
+          <h3>Inovações em Tecnologia Assistiva para Mobilidade</h3>
+          <p>Conheça as últimas inovações em tecnologia assistiva que estão transformando a vida de pessoas com deficiência física. De cadeiras de rodas inteligentes a próteses controladas por voz, descubra como a tecnologia está quebrando barreiras.</p>
+        </article>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Arquitetura</span>
+            <span style="color: #666;">08 Jan 2024</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=800&q=80" alt="Casa adaptada" class="article-image" />
+          <h3>Como Tornar sua Casa Acessível: Guia Prático</h3>
+          <p>Transforme seu lar em um ambiente totalmente acessível com este guia prático. Aprenda sobre adaptações em banheiros, cozinhas, quartos e áreas comuns que podem ser feitas com orçamentos variados. Inclui dicas de profissionais, estimativas de custo e lista de fornecedores especializados em adaptações residenciais.</p>
+        </article>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Inclusão</span>
+            <span style="color: #666;">05 Jan 2024</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80" alt="Pessoas trabalhando" class="article-image" />
+          <h3>Histórias de Sucesso: Empresas Inclusivas no Brasil</h3>
+          <p>Conheça histórias inspiradoras de empresas brasileiras que estão liderando o caminho em inclusão e acessibilidade. Desde adaptações arquitetônicas até políticas de contratação inclusivas. Descubra como essas empresas estão criando ambientes de trabalho verdadeiramente acessíveis e os resultados positivos que isso está gerando.</p>
+        </article>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Transporte</span>
+            <span style="color: #666;">02 Jan 2024</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=800&q=80" alt="Transporte público" class="article-image" />
+          <h3>Acessibilidade no Transporte Público: Desafios e Soluções</h3>
+          <p>Análise sobre o estado atual da acessibilidade no transporte público brasileiro. Discutimos os principais desafios enfrentados por pessoas com deficiência física e as soluções que estão sendo implementadas em diferentes cidades. Inclui exemplos de boas práticas e sugestões para melhorias futuras no sistema de transporte coletivo.</p>
+        </article>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Educação</span>
+            <span style="color: #666;">28 Dez 2023</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1594481931201-7cc9c6b4e5b4?auto=format&fit=crop&w=800&q=80" alt="Acessibilidade educacional" class="article-image" />
+          <h3>Acessibilidade em Universidades: O Que Precisamos Melhorar</h3>
+          <p>Estudantes com deficiência física enfrentam diversos desafios nas universidades brasileiras. Este artigo analisa as principais barreiras encontradas e apresenta soluções práticas para tornar o ambiente acadêmico mais inclusivo. Conheça experiências de estudantes e as adaptações necessárias em salas de aula, bibliotecas e laboratórios.</p>
+        </article>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Legislação</span>
+            <span style="color: #666;">25 Dez 2023</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80" alt="Leis e direitos" class="article-image" />
+          <h3>Lei Brasileira de Inclusão: Seus Direitos e Como Exigir</h3>
+          <p>A Lei Brasileira de Inclusão (LBI) garante diversos direitos às pessoas com deficiência. Entenda quais são seus direitos, como a lei protege a acessibilidade física e o que fazer quando esses direitos são violados. Inclui informações sobre como denunciar e exigir adequações em estabelecimentos públicos e privados.</p>
+        </article>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Tecnologia Assistiva</span>
+            <span style="color: #666;">20 Dez 2023</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80" alt="Cadeira de rodas moderna" class="article-image" />
+          <h3>Guia Completo para Escolher uma Cadeira de Rodas</h3>
+          <p>Escolher a cadeira de rodas adequada é fundamental para qualidade de vida e autonomia. Este guia completo aborda os diferentes tipos de cadeiras disponíveis, critérios de escolha, onde comprar, valores médios e dicas de manutenção. Inclui informações sobre programas governamentais que oferecem equipamentos gratuitamente.</p>
+        </article>
+        
+        <article class="article">
+          <div class="article-header">
+            <span class="article-category">Arquitetura</span>
+            <span style="color: #666;">18 Dez 2023</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80" alt="Banheiro acessível" class="article-image" />
+          <h3>Adaptação de Banheiros: Tudo que Você Precisa Saber</h3>
+          <p>Banheiros acessíveis são essenciais para a autonomia de pessoas com deficiência física. Aprenda sobre as dimensões necessárias, localização de barras de apoio, altura de sanitários, pias adaptadas e muito mais. Guia completo com especificações técnicas da NBR 9050 e dicas de instalação.</p>
+        </article>
+      </div>
+      
+      <div id="forum" class="page" style="display: none">
+        <div class="hero-content" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h2>💬 Fórum de Discussão</h2>
+            <p>Comunidade de pessoas com deficiência e profissionais discutindo acessibilidade</p>
+      </div>
+          <button class="apply-btn" onclick="openNewTopicModal()" style="padding: 1rem 2rem; font-size: 1rem;">➕ Nova Discussão</button>
+        </div>
+        
+        <div id="topics-container">
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Como adaptar banheiro para cadeirante com orçamento limitado?</h3>
+                <span class="topic-category">Adaptações Residenciais</span>
+              </div>
+            </div>
+            <p>Estou precisando adaptar o banheiro da minha casa para uso de cadeira de rodas, mas tenho um orçamento limitado. Quais são as adaptações mais essenciais e onde posso encontrar fornecedores com bons preços?</p>
+            <div class="topic-author">
+              <div class="author-avatar">MC</div>
+              <span>Maria C.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 12 respostas</span>
+              <span>👁️ 156 visualizações</span>
+              <span>⏰ há 2 horas</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Empresas estão cumprindo a Lei de Cotas para PCD?</h3>
+                <span class="topic-category">Legislação</span>
+              </div>
+            </div>
+            <p>Gostaria de saber experiências de vocês com empresas que contratam PCD. As empresas estão realmente cumprindo a lei de cotas? Como está a acessibilidade física nos locais de trabalho?</p>
+            <div class="topic-author">
+              <div class="author-avatar">AC</div>
+              <span>Ana C.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 24 respostas</span>
+              <span>👁️ 342 visualizações</span>
+              <span>⏰ há 1 dia</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Experiências com elevadores residenciais para cadeirantes</h3>
+                <span class="topic-category">Tecnologia Assistiva</span>
+              </div>
+            </div>
+            <p>Estou pesquisando sobre instalação de elevador residencial. Alguém já instalou? Quais marcas recomendam? Como foi o processo de instalação e manutenção? Quanto custa aproximadamente?</p>
+            <div class="topic-author">
+              <div class="author-avatar">JS</div>
+              <span>João S.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 8 respostas</span>
+              <span>👁️ 98 visualizações</span>
+              <span>⏰ há 5 horas</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Dicas para tornar calçadas acessíveis em condomínios</h3>
+                <span class="topic-category">Arquitetura</span>
+              </div>
+            </div>
+            <p>Moro em um condomínio e quero propor melhorias nas calçadas e áreas comuns para torná-las mais acessíveis. Alguém já passou por isso? Quais foram os principais desafios? Como convencer o síndico e os moradores?</p>
+            <div class="topic-author">
+              <div class="author-avatar">PL</div>
+              <span>Paulo L.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 15 respostas</span>
+              <span>👁️ 201 visualizações</span>
+              <span>⏰ há 2 dias</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Recomendações de cadeiras de rodas para uso diário</h3>
+                <span class="topic-category">Equipamentos</span>
+              </div>
+            </div>
+            <p>Preciso comprar uma nova cadeira de rodas para uso diário. Quais modelos vocês recomendam? O que devo considerar na escolha? Orçamento médio de R$ 3.000 a R$ 5.000. Alguém já comprou pelo SUS?</p>
+            <div class="topic-author">
+              <div class="author-avatar">RF</div>
+              <span>Roberto F.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 19 respostas</span>
+              <span>👁️ 278 visualizações</span>
+              <span>⏰ há 3 dias</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Acessibilidade em universidades: sua experiência</h3>
+                <span class="topic-category">Educação</span>
+              </div>
+            </div>
+            <p>Estudantes com deficiência física, como está a acessibilidade nas universidades onde estudam ou estudaram? Quais adaptações existem e o que ainda precisa melhorar? Como vocês lidaram com as barreiras encontradas?</p>
+            <div class="topic-author">
+              <div class="author-avatar">LM</div>
+              <span>Lucas M.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 31 respostas</span>
+              <span>👁️ 445 visualizações</span>
+              <span>⏰ há 4 dias</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Transporte público acessível: realidade ou utopia?</h3>
+                <span class="topic-category">Transporte</span>
+              </div>
+            </div>
+            <p>Como está a acessibilidade no transporte público da sua cidade? Os ônibus têm elevadores? Os motoristas são treinados? Compartilhem experiências boas e ruins para que possamos discutir melhorias.</p>
+            <div class="topic-author">
+              <div class="author-avatar">SM</div>
+              <span>Silvia M.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 42 respostas</span>
+              <span>👁️ 567 visualizações</span>
+              <span>⏰ há 5 dias</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Como adaptar a cozinha para cadeirante?</h3>
+                <span class="topic-category">Adaptações Residenciais</span>
+              </div>
+            </div>
+            <p>Preciso adaptar minha cozinha pois tenho dificuldade de alcançar os armários superiores e a pia está muito alta. Quais adaptações são essenciais? Alguém tem dicas de móveis adaptados ou onde comprar?</p>
+            <div class="topic-author">
+              <div class="author-avatar">CG</div>
+              <span>Carlos G.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 11 respostas</span>
+              <span>👁️ 134 visualizações</span>
+              <span>⏰ há 6 dias</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Aplicativos e tecnologia que facilitam o dia a dia</h3>
+                <span class="topic-category">Tecnologia Assistiva</span>
+              </div>
+            </div>
+            <p>Quais apps e tecnologias vocês usam no dia a dia que facilitam a vida? Estou procurando recomendações de apps para transporte, acessibilidade de locais, e outras ferramentas úteis para PCD.</p>
+            <div class="topic-author">
+              <div class="author-avatar">AM</div>
+              <span>Amanda M.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 27 respostas</span>
+              <span>👁️ 389 visualizações</span>
+              <span>⏰ há 1 semana</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Como exigir acessibilidade em estabelecimentos comerciais?</h3>
+                <span class="topic-category">Legislação</span>
+              </div>
+            </div>
+            <p>Frequentemente encontro estabelecimentos sem acessibilidade adequada. Como posso formalmente exigir que façam adaptações? Qual o procedimento legal? Alguém já conseguiu que um estabelecimento se adequasse?</p>
+            <div class="topic-author">
+              <div class="author-avatar">PF</div>
+              <span>Patricia F.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 18 respostas</span>
+              <span>👁️ 256 visualizações</span>
+              <span>⏰ há 1 semana</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="topic">
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">Dicas para viajar de avião com cadeira de rodas</h3>
+                <span class="topic-category">Viagens</span>
+              </div>
+            </div>
+            <p>Vou viajar de avião pela primeira vez com minha cadeira de rodas. Quais são os procedimentos? Como funciona na segurança? A cadeira pode ir na cabine? Preciso de documentação especial?</p>
+            <div class="topic-author">
+              <div class="author-avatar">RM</div>
+              <span>Ricardo M.</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 22 respostas</span>
+              <span>👁️ 312 visualizações</span>
+              <span>⏰ há 1 semana</span>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      
+      <div id="vagas" class="page" style="display: none">
+        
+        <div class="filters">
+          <button class="filter-btn active">Todas</button>
+          <button class="filter-btn">Remoto</button>
+          <button class="filter-btn">Presencial</button>
+          <button class="filter-btn">Híbrido</button>
+      </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Desenvolvedor Front-End</h3>
+                <p style="color: var(--primary); font-weight: 600;">TechInclusiva</p>
+                <p style="color: #666;">📍 São Paulo, SP - Remoto</p>
+      </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Procuramos desenvolvedor front-end para trabalhar em projetos de tecnologia assistiva. Ambiente totalmente acessível, com suporte para cadeirantes e equipamentos adaptados. Home office disponível.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 6.000 - R$ 9.000</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Analista de Recursos Humanos</h3>
+                <p style="color: var(--primary); font-weight: 600;">Empresa Inclusiva Ltda</p>
+                <p style="color: #666;">📍 Rio de Janeiro, RJ - Híbrido</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Oportunidade para analista de RH com foco em diversidade e inclusão. Escritório totalmente adaptado com rampas, elevadores e banheiros acessíveis. Flexibilidade de trabalho remoto 3 dias por semana.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 4.500 - R$ 6.500</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Designer UX/UI com Foco em Acessibilidade</h3>
+                <p style="color: var(--primary); font-weight: 600;">DesignAcessível</p>
+                <p style="color: #666;">📍 Belo Horizonte, MG - Remoto</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Buscamos designer especializado em UX/UI com experiência em projetos acessíveis. Trabalho 100% remoto, empresa comprometida com inclusão. Ambiente de trabalho totalmente adaptado para diferentes necessidades.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 5.500 - R$ 8.000</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Contador</h3>
+                <p style="color: var(--primary); font-weight: 600;">Contabilidade Inclusiva</p>
+                <p style="color: #666;">📍 Curitiba, PR - Presencial</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Vaga para contador em escritório totalmente acessível. Ambiente adaptado com todas as facilidades para pessoas com deficiência física. Estacionamento reservado e suporte completo.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 4.000 - R$ 6.000</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Assistente Administrativo</h3>
+                <p style="color: var(--primary); font-weight: 600;">Grupo Acessibilidade</p>
+                <p style="color: #666;">📍 Brasília, DF - Presencial</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Oportunidade para assistente administrativo. Empresa líder em inclusão, com escritório projetado seguindo todas as normas de acessibilidade. Suporte completo e ambiente inclusivo.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 2.500 - R$ 3.500</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Suporte Técnico</h3>
+                <p style="color: var(--primary); font-weight: 600;">TechSupport Inclusivo</p>
+                <p style="color: #666;">📍 Porto Alegre, RS - Remoto</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Vaga para suporte técnico com foco em tecnologia assistiva. Trabalho 100% remoto com horários flexíveis. Empresa especializada em soluções acessíveis. Ambiente totalmente adaptado.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 3.000 - R$ 4.500</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Atendente de Call Center</h3>
+                <p style="color: var(--primary); font-weight: 600;">Central Inclusiva</p>
+                <p style="color: #666;">📍 Toledo, PR - Remoto</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Oportunidade para atendente de call center. Trabalho 100% remoto com horários flexíveis. Empresa comprometida com inclusão e diversidade. Ambiente totalmente acessível e adaptado.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 1.800 - R$ 2.500</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Desenvolvedor Back-End</h3>
+                <p style="color: var(--primary); font-weight: 600;">TechInclusiva</p>
+                <p style="color: #666;">📍 São Paulo, SP - Remoto</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Procuramos desenvolvedor back-end para trabalhar em projetos de tecnologia assistiva. Ambiente totalmente acessível, com suporte para cadeirantes. Home office disponível com todas as ferramentas necessárias.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 7.000 - R$ 10.000</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Psicólogo Organizacional</h3>
+                <p style="color: var(--primary); font-weight: 600;">RH Inclusivo</p>
+                <p style="color: #666;">📍 Florianópolis, SC - Híbrido</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Vaga para psicólogo organizacional com experiência em inclusão e diversidade. Escritório totalmente acessível. Trabalho híbrido com flexibilidade de horários. Ambiente inclusivo e acolhedor.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 5.000 - R$ 7.500</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Redator de Conteúdo</h3>
+                <p style="color: var(--primary); font-weight: 600;">Agência Inclusiva</p>
+                <p style="color: #666;">📍 Salvador, BA - Remoto</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Buscamos redator para criar conteúdo sobre acessibilidade e inclusão. Trabalho 100% remoto, horários flexíveis. Empresa comprometida com diversidade e inclusão. Ambiente totalmente adaptado.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 3.500 - R$ 5.000</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="job">
+          <div style="flex: 1;">
+            <div class="job-header">
+              <div style="flex: 1;">
+                <h3 class="job-title">Analista de Marketing Digital</h3>
+                <p style="color: var(--primary); font-weight: 600;">Marketing Inclusivo</p>
+                <p style="color: #666;">📍 Recife, PE - Híbrido</p>
+              </div>
+              <span style="background: #4caf50; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem;">Acessível</span>
+            </div>
+            <p>Oportunidade para analista de marketing digital. Escritório totalmente acessível com rampas e elevadores. Trabalho híbrido 3 dias presenciais e 2 remotos. Empresa focada em inclusão e diversidade.</p>
+            <div class="job-footer">
+              <div class="job-salary">R$ 4.000 - R$ 6.000</div>
+              <button class="apply-btn">Candidatar-se</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="contato" class="page" style="display: none">
+        <div class="hero-content">
+          <h2>📧 Entre em Contato</h2>
+          <p>Envie sua dúvida ou sugestão para nossa equipe. Estamos aqui para ajudar!</p>
+        </div>
+        
+        <div class="hero-content" style="margin-top: 2rem;">
+          <h3 style="margin-bottom: 1.5rem; color: var(--primary); text-align: center;">📝 Formulário de Contato</h3>
+          <form style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 600px; margin: 0 auto;">
+            <input type="text" placeholder="Seu nome" style="padding: 1rem; border-radius: 10px; border: 2px solid #e5e7eb; font-size: 1rem; transition: all 0.3s ease;" onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 3px rgba(37, 99, 235, 0.1)'" onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'" />
+            <input type="email" placeholder="Seu email" style="padding: 1rem; border-radius: 10px; border: 2px solid #e5e7eb; font-size: 1rem; transition: all 0.3s ease;" onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 3px rgba(37, 99, 235, 0.1)'" onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'" />
+            <textarea placeholder="Sua mensagem" rows="6" style="padding: 1rem; border-radius: 10px; border: 2px solid #e5e7eb; font-size: 1rem; font-family: inherit; transition: all 0.3s ease; resize: vertical;" onfocus="this.style.borderColor='var(--primary)'; this.style.boxShadow='0 0 0 3px rgba(37, 99, 235, 0.1)'" onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'"></textarea>
+            <button type="submit" class="apply-btn" style="width: 100%;">Enviar Mensagem</button>
+          </form>
+        </div>
+        
+        <div style="margin-top: 3rem; width: 100%; padding: 0;">
+          <div style="background: var(--card-bg); backdrop-filter: blur(20px); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow-lg); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--primary); text-align: center;">📍 Nossa Localização</h3>
+            <p style="margin-bottom: 1.5rem; line-height: 1.8; text-align: center;">
+              <strong>Endereço:</strong><br>
+              Rua Principal, 123 - Centro<br>
+              Toledo, PR - CEP: 85900-000
+            </p>
+          </div>
+          <div style="width: 100%; height: 500px; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-lg);">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3661.5!2d-53.7423!3d-24.7146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94f3f3f3f3f3f3f3%3A0x3f3f3f3f3f3f3f3f!2sToledo%2C%20PR!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr" 
+              width="100%" 
+              height="500" 
+              style="border:0; display: block;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Localização em Toledo, PR">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>📍 Endereço</h3>
+          <p>
+            <strong>Acessibilidade+</strong><br>
+            Rua Principal, 123<br>
+            Centro<br>
+            Toledo - PR, 85900-000<br>
+            Brasil
+          </p>
+        </div>
+        
+        <div class="footer-section">
+          <h3>📞 Contato</h3>
+          <p>
+            <strong>Telefone:</strong><br>
+            (45) 99999-9999<br><br>
+            <strong>Email:</strong><br>
+            <a href="mailto:contato@acessibilidade.com.br">contato@acessibilidade.com.br</a>
+          </p>
+        </div>
+        
+        <div class="footer-section">
+          <h3>🕒 Horário de Atendimento</h3>
+          <p>
+            Segunda a Sexta:<br>
+            08:00 às 18:00<br><br>
+            Sábado:<br>
+            08:00 às 12:00<br><br>
+            Domingo: Fechado
+          </p>
+        </div>
+        
+        <div class="footer-section">
+          <h3>🌐 Redes Sociais</h3>
+          <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+            <a href="#" target="_blank" style="display: flex; align-items: center; gap: 0.5rem;">
+              <span>📘</span> Facebook
+            </a>
+            <a href="#" target="_blank" style="display: flex; align-items: center; gap: 0.5rem;">
+              <span>📷</span> Instagram
+            </a>
+            <a href="#" target="_blank" style="display: flex; align-items: center; gap: 0.5rem;">
+              <span>💼</span> LinkedIn
+            </a>
+            <a href="#" target="_blank" style="display: flex; align-items: center; gap: 0.5rem;">
+              <span>▶️</span> YouTube
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2025 Acessibilidade+. Todos os direitos reservados. | Construindo um mundo mais inclusivo 🌍</p>
+      </div>
+    </footer>
+
+    <!-- Menu Inferior Fixo -->
+    <nav class="bottom-nav" role="navigation" aria-label="Menu de navegação inferior">
+      <button onclick="showPage('home', event)" class="bottom-nav-item" aria-label="Início">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Início</span>
+      </button>
+      <button onclick="showPage('blog', event)" class="bottom-nav-item" aria-label="Blog">
+        <span class="nav-icon">📚</span>
+        <span class="nav-label">Blog</span>
+      </button>
+      <button onclick="showPage('forum', event)" class="bottom-nav-item" aria-label="Fórum">
+        <span class="nav-icon">💬</span>
+        <span class="nav-label">Fórum</span>
+      </button>
+      <button onclick="showPage('vagas', event)" class="bottom-nav-item" aria-label="Vagas">
+        <span class="nav-icon">💼</span>
+        <span class="nav-label">Vagas</span>
+      </button>
+      <button onclick="showPage('contato', event)" class="bottom-nav-item" aria-label="Contato">
+        <span class="nav-icon">📞</span>
+        <span class="nav-label">Contato</span>
+      </button>
+    </nav>
+
+    <!-- Modal Novo Tópico do Fórum -->
+    <div class="modal" id="new-topic-modal" role="dialog" aria-modal="true" onclick="if(event.target.id === 'new-topic-modal') closeNewTopicModal()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <h2>➕ Criar Nova Discussão</h2>
+        <form id="new-topic-form" onsubmit="createNewTopic(event)">
+          <label for="topic-title">Título da Discussão:</label>
+          <input type="text" id="topic-title" placeholder="Ex: Como adaptar minha casa para cadeirante?" required aria-label="Título da discussão" />
+          
+          <label for="topic-category">Categoria:</label>
+          <select id="topic-category" required aria-label="Categoria">
+            <option value="">Selecione uma categoria</option>
+            <option value="Adaptações Residenciais">Adaptações Residenciais</option>
+            <option value="Legislação">Legislação</option>
+            <option value="Trabalho e Carreira">Trabalho e Carreira</option>
+            <option value="Tecnologia Assistiva">Tecnologia Assistiva</option>
+            <option value="Transporte e Mobilidade">Transporte e Mobilidade</option>
+            <option value="Saúde e Bem-estar">Saúde e Bem-estar</option>
+            <option value="Educação">Educação</option>
+            <option value="Outros">Outros</option>
+          </select>
+          
+          <label for="topic-author">Seu Nome:</label>
+          <input type="text" id="topic-author" placeholder="Ex: João Silva" required aria-label="Seu nome" />
+          
+          <label for="topic-content">Mensagem:</label>
+          <textarea id="topic-content" rows="5" placeholder="Descreva sua dúvida, experiência ou tópico de discussão..." required aria-label="Conteúdo da discussão"></textarea>
+          
+          <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <button type="submit" class="apply-btn" style="flex: 1;">📝 Criar Discussão</button>
+            <button type="button" onclick="closeNewTopicModal()" style="flex: 1; padding: 1rem; background: #e5e7eb; color: #333; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Seletor de Cor de Fundo Simplificado -->
+    <div class="color-picker-modal" id="color-picker-modal" onclick="if(event.target.id === 'color-picker-modal') closeColorPicker()">
+      <div class="color-picker-content" onclick="event.stopPropagation()">
+        <h3>🎨 Escolha a Cor do Fundo</h3>
+        <p style="text-align: center; color: #666; margin-bottom: 2rem;">Selecione uma cor para o fundo da página</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
+          <div style="width: 100%;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; text-align: center;">Escolha uma cor:</label>
+            <input type="color" id="bg-color-picker" value="#000000" style="width: 100%; height: 80px; border: none; border-radius: 15px; cursor: pointer;" onchange="applyBackgroundColor()" />
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; width: 100%;">
+            <button class="preset-btn" onclick="setBackgroundColor('#000000')" style="background: #000; color: white;">Preto</button>
+            <button class="preset-btn" onclick="setBackgroundColor('#1e3a8a')" style="background: #1e3a8a; color: white;">Azul</button>
+            <button class="preset-btn" onclick="setBackgroundColor('#065f46')" style="background: #065f46; color: white;">Verde</button>
+            <button class="preset-btn" onclick="setBackgroundColor('#581c87')" style="background: #581c87; color: white;">Roxo</button>
+            <button class="preset-btn" onclick="setBackgroundColor('#991b1b')" style="background: #991b1b; color: white;">Vermelho</button>
+            <button class="preset-btn" onclick="setBackgroundColor('#9a3412')" style="background: #9a3412; color: white;">Laranja</button>
+          </div>
+          
+          <button class="btn-reset" onclick="resetColors()" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">🔄 Voltar ao Normal</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="login-modal" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <h2 id="login-title">Entrar</h2>
+        <input type="email" placeholder="Email" aria-label="Email" />
+        <input type="password" placeholder="Senha" aria-label="Senha" />
+        <button onclick="closeLogin()">Entrar</button>
+        <p style="text-align: center; margin-top: 1.5rem">
+          <span class="link" onclick="toggleRegister()">Não tem conta? Criar uma</span>
+        </p>
+        <p style="text-align: center; margin-top: 0.5rem">
+          <span class="link" onclick="closeLogin()">Voltar</span>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      let fontSize = 16;
+      let currentSlide = 0;
+      const slides = [
+        {
+          img: "img/produto-Inclusao-A-Importancia-da-Acessibilidade-Fisica-no-IPA.webp",
+          caption: "Inclusão é movimento, é liberdade.",
+          link: "#blog"
+        },
+        {
+          img: "img/Capa-Blog-20-1024x677.webp",
+          caption: "Caminhos acessíveis para todos.",
+          link: "#vagas"
+        },
+        {
+          img: "img/image-28-1024x535.png",
+          caption: "Tecnologia e empatia andam juntas.",
+          link: "#forum"
+        },
+        {
+          img: "img/maxresdefault.jpg",
+          caption: "Acessibilidade para todos.",
+          link: "#home"
+        },
+      ];
+
+      function showPage(id, event) {
+        document.querySelectorAll(".page").forEach((p) => (p.style.display = "none"));
+        document.querySelectorAll("nav button").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".bottom-nav-item").forEach((b) => b.classList.remove("active"));
+        document.getElementById(id).style.display = "block";
+        
+        // Atualizar menu superior
+        if (event && event.target) {
+        event.target.classList.add("active");
+        } else {
+          // Se não houver evento, encontrar o botão correspondente
+          const navButtons = document.querySelectorAll("nav button");
+          const pages = ['home', 'blog', 'forum', 'vagas', 'contato'];
+          const pageIndex = pages.indexOf(id);
+          if (pageIndex !== -1 && navButtons[pageIndex]) {
+            navButtons[pageIndex].classList.add("active");
+          }
+        }
+        
+        // Atualizar menu inferior
+        const bottomNavItems = document.querySelectorAll(".bottom-nav-item");
+        const pages = ['home', 'blog', 'forum', 'vagas', 'contato'];
+        bottomNavItems.forEach((item, index) => {
+          if (pages[index] === id) {
+            item.classList.add("active");
+          }
+        });
+        
+        // Scroll para o topo
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function toggleContrast() {
+        const modal = document.getElementById("color-picker-modal");
+        modal.style.display = "flex";
+      }
+      
+      function setBackgroundColor(color) {
+        document.documentElement.style.setProperty('--custom-bg', color);
+        document.getElementById("bg-color-picker").value = color;
+        document.body.classList.add("contrast");
+      }
+      
+      function applyBackgroundColor() {
+        const color = document.getElementById("bg-color-picker").value;
+        setBackgroundColor(color);
+      }
+      
+      function resetColors() {
+        document.body.classList.remove("contrast");
+        document.documentElement.style.removeProperty('--custom-bg');
+        closeColorPicker();
+      }
+      
+      function closeColorPicker() {
+        document.getElementById("color-picker-modal").style.display = "none";
+      }
+
+      function openNewTopicModal() {
+        document.getElementById("new-topic-modal").style.display = "flex";
+      }
+
+      function closeNewTopicModal() {
+        document.getElementById("new-topic-modal").style.display = "none";
+        document.getElementById("new-topic-form").reset();
+      }
+
+      function createNewTopic(event) {
+        event.preventDefault();
+        
+        const title = document.getElementById("topic-title").value;
+        const category = document.getElementById("topic-category").value;
+        const author = document.getElementById("topic-author").value;
+        const content = document.getElementById("topic-content").value;
+        
+        // Criar iniciais do autor
+        const authorInitials = author.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        
+        // Criar novo tópico
+        const topicsContainer = document.getElementById("topics-container");
+        const newTopic = document.createElement("div");
+        newTopic.className = "topic";
+        newTopic.style.animation = "fadeIn 0.5s ease";
+        
+        newTopic.innerHTML = `
+          <div style="flex: 1;">
+            <div class="topic-header">
+              <div style="flex: 1;">
+                <h3 class="topic-title">${title}</h3>
+                <span class="topic-category">${category}</span>
+              </div>
+            </div>
+            <p>${content}</p>
+            <div class="topic-author">
+              <div class="author-avatar">${authorInitials}</div>
+              <span>${author}</span>
+            </div>
+            <div class="topic-stats">
+              <span>💬 0 respostas</span>
+              <span>👁️ 1 visualização</span>
+              <span>⏰ agora</span>
+            </div>
+          </div>
+        `;
+        
+        // Inserir no topo da lista
+        topicsContainer.insertBefore(newTopic, topicsContainer.firstChild);
+        
+        // Fechar modal e limpar formulário
+        closeNewTopicModal();
+        
+        // Mostrar mensagem de sucesso
+        alert("✅ Discussão criada com sucesso!");
+      }
+
+      function adjustFont(change) {
+        fontSize = Math.min(24, Math.max(12, fontSize + change));
+        document.body.style.fontSize = fontSize + "px";
+      }
+
+      function toggleLogin() {
+        document.getElementById("login-modal").style.display = "flex";
+      }
+
+      function closeLogin() {
+        document.getElementById("login-modal").style.display = "none";
+      }
+
+      function toggleRegister() {
+        const title = document.getElementById("login-title");
+        title.textContent = title.textContent === "Entrar" ? "Criar Conta" : "Entrar";
+      }
+
+      function updateSlide() {
+        const slide = slides[currentSlide];
+        const img = document.getElementById("slide-img");
+        const link = document.getElementById("slide-link");
+        img.style.opacity = "0";
+        setTimeout(() => {
+          img.src = slide.img;
+          img.style.opacity = "1";
+          link.href = slide.link;
+          link.onclick = function(e) {
+            e.preventDefault();
+            if (slide.link.startsWith('#')) {
+              const pageId = slide.link.substring(1);
+              showPage(pageId);
+            } else {
+              window.location.href = slide.link;
+            }
+          };
+        }, 400);
+        document.getElementById("slide-caption").textContent = slide.caption;
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        updateSlide();
+      }
+
+      function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        updateSlide();
+      }
+
+      setInterval(nextSlide, 6000);
+      
+      // Inicializar primeira imagem e link
+      document.getElementById("slide-img").style.opacity = "1";
+      const firstSlide = slides[0];
+      const link = document.getElementById("slide-link");
+      link.href = firstSlide.link;
+      link.onclick = function(e) {
+        e.preventDefault();
+        if (firstSlide.link.startsWith('#')) {
+          const pageId = firstSlide.link.substring(1);
+          showPage(pageId);
+        } else {
+          window.location.href = firstSlide.link;
+        }
+      };
+    </script>
+    
+    <!-- Botão Flutuante WhatsApp -->
+    <a href="https://wa.me/5545999999999?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20acessibilidade" 
+       class="whatsapp-float" 
+       target="_blank" 
+       aria-label="Fale conosco no WhatsApp"
+       title="Fale conosco no WhatsApp">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </a>
+  </body>
+</html>

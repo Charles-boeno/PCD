@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Página com Controle de Voz - Protótipo com Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:#4a68ff;
+      --bg:#f9f9fb;
+      --text:#222;
+      --muted:#666;
+      --radius:12px;
+      font-family:'Inter', sans-serif;
+    }
+    * {box-sizing:border-box; margin:0; padding:0;}
+    body {
+      background:var(--bg);
+      color:var(--text);
+      padding-bottom:70px;
+    }
+
+    header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 40px;
+      background:white;
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    .logo {
+      display:flex;
+      align-items:center;
+      font-weight:700;
+      font-size:20px;
+      color:var(--primary);
+      font-family:'Poppins', sans-serif;
+    }
+
+    .header-social {
+      display:none;
+    }
+
+    .header-social a {
+      color:var(--text);
+      font-size:20px;
+      text-decoration:none;
+      transition:0.2s;
+      margin:0 8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .header-social a:hover {
+      transform:translateY(-2px);
+    }
+
+    .header-social a.facebook {
+      color:#1877F2;
+    }
+
+    .header-social a.instagram {
+      background:linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+
+    .header-social a.youtube {
+      color:#FF0000;
+    }
+
+    nav {
+      display:flex;
+      align-items:center;
+      gap:20px;
+    }
+
+    nav a {
+      text-decoration:none;
+      color:var(--text);
+      font-weight:500;
+      transition:0.2s;
+    }
+
+    nav a:hover {
+      color:var(--primary);
+    }
+
+    .search-bar {
+      display:flex;
+      align-items:center;
+      background:#f0f0f5;
+      padding:6px 12px;
+      border-radius:var(--radius);
+      gap:8px;
+    }
+
+    .search-bar input {
+      border:none;
+      background:transparent;
+      outline:none;
+      font-size:14px;
+    }
+
+    .search-bar .mic {
+      cursor:pointer;
+      font-size:18px;
+      color:var(--primary);
+      transition:0.2s;
+      position:relative;
+    }
+
+    .search-bar .mic:hover {
+      transform:scale(1.1);
+    }
+
+    .search-bar .mic.recording {
+      animation:pulse 1s infinite;
+      color:#ff4444;
+    }
+
+    @keyframes pulse {
+      0%, 100% {opacity:1;}
+      50% {opacity:0.5;}
+    }
+
+    .search-bar .search-icon {
+      cursor:pointer;
+      font-size:18px;
+      transition:0.2s;
+    }
+
+    .search-bar .search-icon:hover {
+      transform:scale(1.1);
+      color:var(--primary);
+    }
+
+    .btn {
+      padding:8px 16px;
+      border:none;
+      border-radius:var(--radius);
+      cursor:pointer;
+      font-weight:600;
+      transition:0.2s;
+    }
+
+    .btn-login {
+      background:transparent;
+      color:var(--primary);
+    }
+
+    .btn-signup {
+      background:var(--primary);
+      color:white;
+    }
+
+    main {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      height:calc(100vh - 100px);
+      overflow:hidden;
+    }
+
+    .text-area {
+      flex:1;
+      padding:0 60px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .text-area h1 {
+      font-size:40px;
+      margin-bottom:16px;
+      font-family:'Poppins', sans-serif;
+      color:var(--primary);
+    }
+
+    .text-area h2 {
+      font-size:22px;
+      margin-bottom:12px;
+      color:var(--text);
+      font-weight:600;
+    }
+
+    .text-area p {
+      font-size:16px;
+      color:var(--muted);
+      line-height:1.7;
+      max-width:500px;
+    }
+
+    .image-area {
+      flex:1;
+      height:100%;
+    }
+
+    .image-area img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    /* Modal Login */
+    .modal {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.5);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:200;
+    }
+
+    .modal.active {display:flex;}
+
+    .modal-content {
+      background:white;
+      padding:30px;
+      border-radius:var(--radius);
+      width:90%;
+      max-width:400px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.1);
+      animation:pop 0.3s ease;
+    }
+
+    @keyframes pop {
+      from {transform:scale(0.8); opacity:0;}
+      to {transform:scale(1); opacity:1;}
+    }
+
+    .modal-content h3 {
+      font-family:'Poppins', sans-serif;
+      color:var(--primary);
+      margin-bottom:12px;
+    }
+
+    .modal-content input {
+      width:100%;
+      padding:10px;
+      margin:6px 0;
+      border-radius:8px;
+      border:1px solid #ccc;
+      font-size:14px;
+      transition:0.2s;
+    }
+
+    .modal-content input:focus {
+      outline:none;
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(74,104,255,0.1);
+    }
+
+    .modal-content input.error {
+      border-color:#ff4444;
+    }
+
+    .error-message {
+      color:#ff4444;
+      font-size:12px;
+      margin-top:-4px;
+      margin-bottom:4px;
+      display:none;
+    }
+
+    .error-message.show {
+      display:block;
+    }
+
+    .success-message {
+      color:#4caf50;
+      font-size:14px;
+      text-align:center;
+      margin-top:10px;
+      display:none;
+    }
+
+    .success-message.show {
+      display:block;
+    }
+
+    .modal-content button {
+      width:100%;
+      margin-top:10px;
+      padding:10px;
+      background:var(--primary);
+      border:none;
+      color:white;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    .modal-content button:hover {
+      background:#3a56e6;
+      transform:translateY(-1px);
+      box-shadow:0 4px 8px rgba(74,104,255,0.3);
+    }
+
+    .modal-content button:active {
+      transform:translateY(0);
+    }
+
+    .loading {
+      opacity:0.6;
+      cursor:not-allowed !important;
+    }
+
+    .toggle {
+      text-align:center;
+      margin-top:10px;
+      font-size:14px;
+      color:var(--muted);
+      cursor:pointer;
+    }
+
+    /* Menu Inferior Fixo */
+    .mobile-bottom-nav {
+      display:flex !important;
+      position:fixed !important;
+      bottom:0 !important;
+      left:0 !important;
+      right:0 !important;
+      width:100% !important;
+      background:white !important;
+      box-shadow:0 -2px 10px rgba(0,0,0,0.1) !important;
+      z-index:9999 !important;
+      padding:12px 0 !important;
+      justify-content:space-around !important;
+      align-items:center !important;
+      border-top:1px solid #eee;
+    }
+
+    .mobile-nav-item {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      color:var(--muted);
+      padding:8px 12px;
+      transition:0.2s;
+      flex:1;
+      min-width:0;
+    }
+
+    .mobile-nav-item.active {
+      color:var(--primary);
+    }
+
+    .mobile-nav-item span {
+      font-size:24px;
+      margin-bottom:4px;
+    }
+
+    .mobile-nav-item label {
+      font-size:11px;
+      font-weight:500;
+      text-align:center;
+    }
+
+    .mobile-nav-item:hover {
+      color:var(--primary);
+    }
+
+    @media (max-width:900px){
+      header {
+        flex-wrap:wrap;
+        gap:15px;
+        padding:12px 20px;
+      }
+
+      header nav,
+      header .search-bar,
+      header .header-buttons {
+        display:none !important;
+      }
+
+      .header-social {
+        display:flex !important;
+        align-items:center;
+        gap:10px;
+        margin-left:auto;
+      }
+
+      main {flex-direction:column-reverse; text-align:center; height:auto; padding-bottom:80px;}
+      .image-area {width:100%; height:300px;}
+      .text-area {padding:40px 20px;}
+      .text-area p {max-width:none;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">VoiceSite</div>
+    <nav>
+      <a href="menu.html">Menu</a>
+      <a href="blog.html">Blog</a>
+      <a href="forum.html">Fórum</a>
+      <a href="vagas.html">Vagas</a>
+      <a href="icones.html">Ícones</a>
+    </nav>
+
+    <div class="search-bar">
+      <span class="mic" id="micBtn" title="Pesquisar por voz">🎤</span>
+      <input type="text" id="searchInput" placeholder="Pesquisar..." />
+      <span class="search-icon" id="searchBtn" title="Pesquisar">🔍</span>
+    </div>
+
+    <div class="header-buttons" style="display:flex; gap:10px;">
+      <button class="btn btn-login" onclick="openModal('login')">Entrar</button>
+      <button class="btn btn-signup" onclick="openModal('signup')">Criar conta</button>
+    </div>
+
+    <!-- Redes Sociais - Mobile -->
+    <div class="header-social">
+      <a href="#" target="_blank" title="Facebook" class="facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+      <a href="#" target="_blank" title="Instagram" class="instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+      <a href="#" target="_blank" title="YouTube" class="youtube">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="text-area">
+      <h1>Controle de Voz Inteligente</h1>
+      <h2>Navegue com a sua voz</h2>
+      <p>Experimente uma nova maneira de interagir com sites. O VoiceSite utiliza tecnologia de reconhecimento de voz para facilitar a navegação e o acesso a conteúdos como blogs, fóruns e oportunidades. Com apenas um comando, você encontra o que procura de forma prática e moderna.</p>
+    </div>
+    <div class="image-area">
+      <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=1000&q=80" alt="Pessoa com deficiência em cadeira de rodas">
+    </div>
+  </main>
+
+  <div id="modal" class="modal">
+    <div class="modal-content" id="modalContent">
+      <!-- O conteúdo de login/cadastro será trocado dinamicamente -->
+    </div>
+  </div>
+
+  <script>
+    // Reconhecimento de Voz
+    let recognition = null;
+    let isRecording = false;
+
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = 'pt-BR';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('searchInput').value = transcript;
+        performSearch(transcript);
+        stopRecording();
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Erro no reconhecimento de voz:', event.error);
+        stopRecording();
+        alert('Erro ao usar o reconhecimento de voz. Por favor, tente novamente.');
+      };
+
+      recognition.onend = function() {
+        stopRecording();
+      };
+    }
+
+    function startRecording() {
+      if (!recognition) {
+        alert('Reconhecimento de voz não está disponível no seu navegador.');
+        return;
+      }
+
+      if (isRecording) {
+        stopRecording();
+        return;
+      }
+
+      isRecording = true;
+      document.getElementById('micBtn').classList.add('recording');
+      document.getElementById('micBtn').textContent = '🔴';
+      recognition.start();
+    }
+
+    function stopRecording() {
+      isRecording = false;
+      document.getElementById('micBtn').classList.remove('recording');
+      document.getElementById('micBtn').textContent = '🎤';
+      if (recognition) {
+        recognition.stop();
+      }
+    }
+
+    // Funcionalidade de Busca
+    function performSearch(query) {
+      if (!query || query.trim() === '') {
+        alert('Por favor, digite algo para pesquisar.');
+        return;
+      }
+      
+      // Simulação de busca - você pode substituir por uma busca real
+      console.log('Buscando por:', query);
+      alert(`Buscando por: "${query}"\n\n(Esta é uma simulação. Em produção, aqui seria feita a busca real.)`);
+    }
+
+    // Event Listeners
+    document.getElementById('micBtn').addEventListener('click', startRecording);
+    
+    document.getElementById('searchBtn').addEventListener('click', function() {
+      const query = document.getElementById('searchInput').value;
+      performSearch(query);
+    });
+
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const query = this.value;
+        performSearch(query);
+      }
+    });
+
+    // Validação de Formulários
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    function validatePassword(password) {
+      return password.length >= 6;
+    }
+
+    function validateName(name) {
+      return name.trim().length >= 3;
+    }
+
+    function showError(input, message) {
+      input.classList.add('error');
+      // Remove mensagem de erro existente se houver
+      let existingMsg = input.parentNode.querySelector('.error-message');
+      if (existingMsg) {
+        existingMsg.remove();
+      }
+      // Cria nova mensagem de erro
+      const errorMsg = document.createElement('div');
+      errorMsg.className = 'error-message show';
+      errorMsg.textContent = message;
+      input.parentNode.insertBefore(errorMsg, input.nextSibling);
+    }
+
+    function clearError(input) {
+      input.classList.remove('error');
+      const errorMsg = input.parentNode.querySelector('.error-message');
+      if (errorMsg) {
+        errorMsg.remove();
+      }
+    }
+
+    function showSuccess(message) {
+      const modalContent = document.getElementById('modalContent');
+      let successMsg = modalContent.querySelector('.success-message');
+      if (!successMsg) {
+        successMsg = document.createElement('div');
+        successMsg.className = 'success-message';
+        modalContent.appendChild(successMsg);
+      }
+      successMsg.textContent = message;
+      successMsg.classList.add('show');
+      setTimeout(() => {
+        successMsg.classList.remove('show');
+      }, 3000);
+    }
+
+    function handleLogin() {
+      const inputs = document.querySelectorAll('#modalContent input');
+      const email = inputs[0].value.trim();
+      const password = inputs[1].value.trim();
+      let isValid = true;
+
+      // Limpar erros anteriores
+      inputs.forEach(input => clearError(input));
+
+      if (!email) {
+        showError(inputs[0], 'Email é obrigatório');
+        isValid = false;
+      } else if (!validateEmail(email)) {
+        showError(inputs[0], 'Email inválido');
+        isValid = false;
+      }
+
+      if (!password) {
+        showError(inputs[1], 'Senha é obrigatória');
+        isValid = false;
+      } else if (!validatePassword(password)) {
+        showError(inputs[1], 'Senha deve ter pelo menos 6 caracteres');
+        isValid = false;
+      }
+
+      if (isValid) {
+        const button = document.querySelector('#modalContent button');
+        button.classList.add('loading');
+        button.textContent = 'Entrando...';
+        
+        // Simulação de login
+        setTimeout(() => {
+          button.classList.remove('loading');
+          button.textContent = 'Entrar';
+          showSuccess('Login realizado com sucesso!');
+          setTimeout(() => {
+            document.getElementById('modal').classList.remove('active');
+          }, 1500);
+        }, 1500);
+      }
+    }
+
+    function handleSignup() {
+      const inputs = document.querySelectorAll('#modalContent input');
+      const name = inputs[0].value.trim();
+      const email = inputs[1].value.trim();
+      const password = inputs[2].value.trim();
+      let isValid = true;
+
+      // Limpar erros anteriores
+      inputs.forEach(input => clearError(input));
+
+      if (!name) {
+        showError(inputs[0], 'Nome é obrigatório');
+        isValid = false;
+      } else if (!validateName(name)) {
+        showError(inputs[0], 'Nome deve ter pelo menos 3 caracteres');
+        isValid = false;
+      }
+
+      if (!email) {
+        showError(inputs[1], 'Email é obrigatório');
+        isValid = false;
+      } else if (!validateEmail(email)) {
+        showError(inputs[1], 'Email inválido');
+        isValid = false;
+      }
+
+      if (!password) {
+        showError(inputs[2], 'Senha é obrigatória');
+        isValid = false;
+      } else if (!validatePassword(password)) {
+        showError(inputs[2], 'Senha deve ter pelo menos 6 caracteres');
+        isValid = false;
+      }
+
+      if (isValid) {
+        const button = document.querySelector('#modalContent button');
+        button.classList.add('loading');
+        button.textContent = 'Cadastrando...';
+        
+        // Simulação de cadastro
+        setTimeout(() => {
+          button.classList.remove('loading');
+          button.textContent = 'Cadastrar';
+          showSuccess('Conta criada com sucesso!');
+          setTimeout(() => {
+            openModal('login');
+          }, 1500);
+        }, 1500);
+      }
+    }
+
+    // Modal
+    function openModal(type) {
+      const modal = document.getElementById('modal');
+      const content = document.getElementById('modalContent');
+
+      if (type === 'login') {
+        content.innerHTML = `
+          <h3>Entrar</h3>
+          <input type="email" id="loginEmail" placeholder="Email" />
+          <input type="password" id="loginPassword" placeholder="Senha" />
+          <button onclick="handleLogin()">Entrar</button>
+          <div class="toggle" onclick="openModal('signup')">Não tem conta? <b>Crie uma agora</b></div>
+        `;
+      } else {
+        content.innerHTML = `
+          <h3>Criar Conta</h3>
+          <input type="text" id="signupName" placeholder="Nome completo" />
+          <input type="email" id="signupEmail" placeholder="Email" />
+          <input type="password" id="signupPassword" placeholder="Senha" />
+          <button onclick="handleSignup()">Cadastrar</button>
+          <div class="toggle" onclick="openModal('login')">Já tem conta? <b>Entrar</b></div>
+        `;
+      }
+      modal.classList.add('active');
+    }
+
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target.id === 'modal') {
+        this.classList.remove('active');
+        // Limpar erros ao fechar
+        document.querySelectorAll('.error-message').forEach(msg => msg.remove());
+        document.querySelectorAll('input.error').forEach(input => input.classList.remove('error'));
+      }
+    });
+
+    // Validar em tempo real
+    document.addEventListener('input', function(e) {
+      if (e.target.tagName === 'INPUT') {
+        clearError(e.target);
+      }
+    });
+  </script>
+
+  <!-- Menu Inferior Fixo -->
+  <nav class="mobile-bottom-nav" style="display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; background: white !important; z-index: 9999 !important;">
+    <a href="prototipo_siite.html" class="mobile-nav-item active">
+      <span>🏠</span>
+      <label>Início</label>
+    </a>
+    <a href="menu.html" class="mobile-nav-item">
+      <span>📋</span>
+      <label>Menu</label>
+    </a>
+    <a href="blog.html" class="mobile-nav-item">
+      <span>📚</span>
+      <label>Blog</label>
+    </a>
+    <a href="forum.html" class="mobile-nav-item">
+      <span>💬</span>
+      <label>Fórum</label>
+    </a>
+    <a href="vagas.html" class="mobile-nav-item">
+      <span>💼</span>
+      <label>Vagas</label>
+    </a>
+  </nav>
+</body>
+</html>
