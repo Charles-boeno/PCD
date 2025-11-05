@@ -210,8 +210,28 @@
       
       main {
         max-width: 1200px;
-        margin: 3rem auto;
+        margin: 0 auto;
+        padding: 0;
+      }
+      
+      .page {
         padding: 0 2rem;
+        padding-top: 3rem;
+      }
+      
+      #home .slider {
+        margin-top: 0;
+      }
+      
+      #home .hero-content {
+        margin-top: 3rem;
+      }
+      
+      @media (max-width: 768px) {
+        .page {
+          padding: 0 1rem;
+          padding-top: 2rem;
+        }
       }
       
       .page {
@@ -253,10 +273,15 @@
       
       .slider {
         position: relative;
-        width: 100%;
-        height: 450px;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        height: 500px;
         overflow: hidden;
-        border-radius: 20px;
+        border-radius: 0;
+        margin-top: 0;
         margin-bottom: 3rem;
         box-shadow: var(--shadow-lg);
       }
@@ -265,8 +290,25 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center 30%;
         transition: opacity 0.8s ease, transform 0.8s ease;
         display: block;
+      }
+      
+      .slider img[src*="produto-Inclusao"] {
+        object-position: center 20%;
+      }
+      
+      .slider img[src*="Capa-Blog"] {
+        object-position: center 40%;
+      }
+      
+      .slider img[src*="image-28"] {
+        object-position: center 30%;
+      }
+      
+      .slider img[src*="maxresdefault"] {
+        object-position: center 50%;
       }
       
       .slider a {
@@ -303,7 +345,7 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.9);
+        background: transparent;
         border: none;
         width: 50px;
         height: 50px;
@@ -311,18 +353,23 @@
         cursor: pointer;
         font-size: 1.2rem;
         font-weight: bold;
+        color: transparent;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: none;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 3;
+        opacity: 0;
+        pointer-events: auto;
       }
       
       .slider button:hover {
-        background: white;
-        transform: translateY(-50%) scale(1.1);
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+      }
+      
+      .slider button:active {
+        opacity: 0;
       }
       
       .slider .prev {
@@ -963,7 +1010,7 @@
         align-items: start;
       }
       
-        .article-category, .topic-category {
+      .article-category, .topic-category {
         background: linear-gradient(135deg, #dc2626, #ef4444);
         color: white;
         padding: 0.4rem 1rem;
@@ -1146,9 +1193,9 @@
           .header-content {
             flex-wrap: nowrap;
             gap: 0.5rem;
-          }
-          
-          header h1 {
+        }
+        
+        header h1 {
             font-size: 1.1rem;
             flex: 0 0 auto;
             margin-right: 0.5rem;
@@ -1200,6 +1247,13 @@
         
         .slider {
           height: 300px;
+        }
+        
+        .slider img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
         }
         
         .hero-content h2 {
@@ -2599,7 +2653,7 @@
           };
           
           try {
-            recognition.start();
+          recognition.start();
           } catch (e) {
             closeVoiceModal();
             showNotification("Erro ao iniciar reconhecimento de voz.", "error");
