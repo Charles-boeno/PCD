@@ -119,6 +119,51 @@
         box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
       }
       
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+        min-width: 250px;
+      }
+      
+      .search-box:focus-within {
+        border-color: #dc2626;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+      }
+      
+      .search-box input {
+        border: none;
+        outline: none;
+        flex: 1;
+        font-size: 0.95rem;
+        color: var(--text);
+        background: transparent;
+      }
+      
+      .search-box input::placeholder {
+        color: #999;
+      }
+      
+      .search-box button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        color: #dc2626;
+        font-size: 1.2rem;
+      }
+      
+      .search-box button:hover {
+        transform: scale(1.1);
+      }
+      
       main {
         max-width: 1200px;
         margin: 3rem auto;
@@ -257,7 +302,7 @@
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 1.5rem;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -294,7 +339,7 @@
       .feature-card h3 {
         font-size: 1.5rem;
         margin-bottom: 1rem;
-        color: var(--primary);
+        color: #dc2626;
       }
       
       footer {
@@ -456,12 +501,12 @@
 
       .bottom-nav-item:hover {
         background: #f0f0f5;
-        color: var(--primary);
+        color: #dc2626;
         transform: translateY(-3px);
       }
 
       .bottom-nav-item.active {
-        color: var(--primary);
+        color: #dc2626;
         background: rgba(59, 130, 246, 0.1);
       }
 
@@ -630,7 +675,7 @@
         text-align: center;
         margin-bottom: 2rem;
         font-size: 2rem;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -672,7 +717,7 @@
       }
       
       .link {
-        color: var(--primary);
+        color: #dc2626;
         text-decoration: none;
         cursor: pointer;
         font-weight: 500;
@@ -722,7 +767,7 @@
       
       .color-picker-content h3 {
         margin-bottom: 1.5rem;
-        color: var(--primary);
+        color: #dc2626;
         text-align: center;
       }
       
@@ -900,7 +945,7 @@
       .job-salary {
         font-size: 1.2rem;
         font-weight: 700;
-        color: var(--primary);
+        color: #dc2626;
       }
       
       .apply-btn {
@@ -1019,6 +1064,19 @@
           margin: 0;
         }
         
+        .search-box {
+          min-width: 150px;
+          padding: 0.4rem 0.8rem;
+        }
+        
+        .search-box input {
+          font-size: 0.8rem;
+        }
+        
+        .search-box input::placeholder {
+          font-size: 0.75rem;
+        }
+        
         header h1 {
           font-size: 1.2rem;
           margin: 0;
@@ -1078,7 +1136,10 @@
         <button onclick="showPage('contato', event)">Contato</button>
       </nav>
       <div class="controls">
-          <button onclick="toggleContrast()">🎨 Contraste</button>
+          <div class="search-box">
+            <input type="text" id="search-input" placeholder="🔍 Pesquisar..." onkeypress="handleSearch(event)">
+            <button onclick="performSearch()" aria-label="Pesquisar">🔍</button>
+          </div>
           <button onclick="toggleLogin()">🔐 Entrar</button>
         </div>
       </div>
@@ -2038,9 +2099,248 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      function toggleContrast() {
-        const modal = document.getElementById("color-picker-modal");
-        modal.style.display = "flex";
+      function performSearch() {
+        const searchInput = document.getElementById('search-input');
+        const query = searchInput.value.trim().toLowerCase();
+        
+        if (!query) {
+          showNotification("Digite algo para pesquisar", "error");
+          return;
+        }
+        
+        // Dividir a query em palavras para busca mais flexível
+        const queryWords = query.split(/\s+/).filter(word => word.length > 0);
+        
+        // Pesquisar em todas as páginas
+        const searchResults = [];
+        
+        // Pesquisar na página inicial (home)
+        document.querySelectorAll('#home .hero-content, #home .feature-card').forEach(element => {
+          const title = element.querySelector('h2, h3')?.textContent?.toLowerCase() || '';
+          const content = element.textContent.toLowerCase();
+          const matchCount = queryWords.reduce((count, word) => {
+            if (title.includes(word) || content.includes(word)) return count + 1;
+            return count;
+          }, 0);
+          
+          if (matchCount > 0) {
+            const titleText = element.querySelector('h2, h3')?.textContent || 'Conteúdo da Página Inicial';
+            searchResults.push({
+              type: 'Página Inicial',
+              title: titleText,
+              element: element,
+              relevance: matchCount + (title.includes(query) ? 10 : 0)
+            });
+          }
+        });
+        
+        // Pesquisar em artigos do blog
+        document.querySelectorAll('.article').forEach(article => {
+          const titleEl = article.querySelector('h3');
+          const categoryEl = article.querySelector('.article-category');
+          const title = titleEl?.textContent?.toLowerCase() || '';
+          const category = categoryEl?.textContent?.toLowerCase() || '';
+          const content = article.textContent.toLowerCase();
+          
+          const matchCount = queryWords.reduce((count, word) => {
+            if (title.includes(word) || category.includes(word) || content.includes(word)) {
+              return count + 1;
+            }
+            return count;
+          }, 0);
+          
+          if (matchCount > 0 && titleEl) {
+            searchResults.push({
+              type: 'Artigo',
+              title: titleEl.textContent,
+              category: categoryEl?.textContent || '',
+              element: article,
+              relevance: matchCount + (title.includes(query) ? 10 : 0) + (category.includes(query) ? 5 : 0)
+            });
+          }
+        });
+        
+        // Pesquisar em tópicos do fórum
+        document.querySelectorAll('.topic').forEach(topic => {
+          const titleEl = topic.querySelector('.topic-title');
+          const categoryEl = topic.querySelector('.topic-category');
+          const title = titleEl?.textContent?.toLowerCase() || '';
+          const category = categoryEl?.textContent?.toLowerCase() || '';
+          const content = topic.textContent.toLowerCase();
+          
+          const matchCount = queryWords.reduce((count, word) => {
+            if (title.includes(word) || category.includes(word) || content.includes(word)) {
+              return count + 1;
+            }
+            return count;
+          }, 0);
+          
+          if (matchCount > 0 && titleEl) {
+            searchResults.push({
+              type: 'Tópico',
+              title: titleEl.textContent,
+              category: categoryEl?.textContent || '',
+              element: topic,
+              relevance: matchCount + (title.includes(query) ? 10 : 0) + (category.includes(query) ? 5 : 0)
+            });
+          }
+        });
+        
+        // Pesquisar em vagas
+        document.querySelectorAll('.job').forEach(job => {
+          const titleEl = job.querySelector('.job-title');
+          const companyEl = job.querySelector('p[style*="color: var(--primary)"]');
+          const locationEl = Array.from(job.querySelectorAll('p')).find(p => p.textContent.includes('📍'));
+          const title = titleEl?.textContent?.toLowerCase() || '';
+          const company = companyEl?.textContent?.toLowerCase() || '';
+          const location = locationEl?.textContent?.toLowerCase() || '';
+          const content = job.textContent.toLowerCase();
+          
+          const matchCount = queryWords.reduce((count, word) => {
+            if (title.includes(word) || company.includes(word) || location.includes(word) || content.includes(word)) {
+              return count + 1;
+            }
+            return count;
+          }, 0);
+          
+          if (matchCount > 0 && titleEl) {
+            const locationText = locationEl?.textContent.replace('📍', '').trim() || '';
+            searchResults.push({
+              type: 'Vaga',
+              title: titleEl.textContent,
+              company: companyEl?.textContent || '',
+              location: locationText,
+              element: job,
+              relevance: matchCount + (title.includes(query) ? 10 : 0) + (company.includes(query) ? 5 : 0)
+            });
+          }
+        });
+        
+        // Ordenar por relevância (maior primeiro)
+        searchResults.sort((a, b) => b.relevance - a.relevance);
+        
+        // Remover duplicatas
+        const uniqueResults = [];
+        const seenTitles = new Set();
+        searchResults.forEach(result => {
+          const key = `${result.type}-${result.title}`;
+          if (!seenTitles.has(key)) {
+            seenTitles.add(key);
+            uniqueResults.push(result);
+          }
+        });
+        
+        if (uniqueResults.length > 0) {
+          // Mostrar resultados
+          showSearchResults(uniqueResults, query);
+        } else {
+          showNotification("Nenhum resultado encontrado para: " + query, "error");
+        }
+      }
+      
+      function handleSearch(event) {
+        if (event.key === 'Enter') {
+          performSearch();
+        }
+      }
+      
+      function showSearchResults(results, query) {
+        // Criar modal de resultados
+        let modal = document.getElementById('search-results-modal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'search-results-modal';
+          modal.className = 'modal';
+          modal.style.display = 'flex';
+          modal.onclick = function(e) {
+            if (e.target.id === 'search-results-modal') {
+              closeSearchResults();
+            }
+          };
+          document.body.appendChild(modal);
+        }
+        
+        const resultsHTML = results.map((result, index) => {
+          let subtitle = '';
+          if (result.category) {
+            subtitle = `<div style="font-size: 0.85rem; color: #666; margin-top: 0.3rem;">Categoria: ${result.category}</div>`;
+          } else if (result.company) {
+            subtitle = `<div style="font-size: 0.85rem; color: #666; margin-top: 0.3rem;">${result.company}${result.location ? ' • ' + result.location : ''}</div>`;
+          }
+          
+          return `
+            <div class="search-result-item" onclick="scrollToElement('${result.type}', ${index})" style="
+              padding: 1rem;
+              background: white;
+              border-radius: 10px;
+              margin-bottom: 0.5rem;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              border: 2px solid #e5e7eb;
+            " onmouseover="this.style.borderColor='#dc2626'; this.style.transform='translateX(5px)'" onmouseout="this.style.borderColor='#e5e7eb'; this.style.transform='translateX(0)'">
+              <div style="font-weight: 600; color: #dc2626; font-size: 0.9rem; margin-bottom: 0.3rem;">${result.type}</div>
+              <div style="font-size: 1.1rem; color: #333; font-weight: 500;">${result.title}</div>
+              ${subtitle}
+            </div>
+          `;
+        }).join('');
+        
+        modal.innerHTML = `
+          <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <h2 style="margin-bottom: 1rem;">🔍 Resultados da Pesquisa</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">Encontrados ${results.length} resultado(s) para "${query}"</p>
+            <div id="search-results-list">
+              ${resultsHTML}
+            </div>
+            <button onclick="closeSearchResults()" style="width: 100%; margin-top: 1.5rem; padding: 1rem; background: #e5e7eb; color: #333; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">Fechar</button>
+          </div>
+        `;
+        modal.style.display = 'flex';
+        
+        // Armazenar resultados globalmente para scroll
+        window.searchResultsData = results;
+      }
+      
+      function closeSearchResults() {
+        const modal = document.getElementById('search-results-modal');
+        if (modal) {
+          modal.style.display = 'none';
+        }
+      }
+      
+      function scrollToElement(type, index) {
+        if (window.searchResultsData && window.searchResultsData[index]) {
+          const result = window.searchResultsData[index];
+          const element = result.element;
+          
+          // Determinar qual página mostrar
+          if (type === 'Artigo') {
+            showPage('blog');
+          } else if (type === 'Tópico') {
+            showPage('forum');
+          } else if (type === 'Vaga') {
+            showPage('vagas');
+          } else if (type === 'Página Inicial') {
+            showPage('home');
+          }
+          
+          setTimeout(() => {
+            if (element && element.parentElement) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              element.style.background = 'rgba(220, 38, 38, 0.1)';
+              element.style.transition = 'background 0.3s ease';
+              element.style.borderRadius = '10px';
+              element.style.padding = '1rem';
+              setTimeout(() => {
+                element.style.background = '';
+                element.style.padding = '';
+                element.style.borderRadius = '';
+              }, 2000);
+            }
+          }, 300);
+          
+          closeSearchResults();
+        }
       }
       
       function setBackgroundColor(color) {
