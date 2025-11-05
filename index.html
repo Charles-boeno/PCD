@@ -129,6 +129,8 @@
         padding: 0.5rem 1rem;
         transition: all 0.3s ease;
         min-width: 250px;
+        max-width: 100%;
+        flex: 1;
       }
       
       .search-box:focus-within {
@@ -143,6 +145,8 @@
         font-size: 0.95rem;
         color: var(--text);
         background: transparent;
+        min-width: 0;
+        width: 100%;
       }
       
       .search-box input::placeholder {
@@ -158,10 +162,50 @@
         align-items: center;
         color: #dc2626;
         font-size: 1.2rem;
+        flex-shrink: 0;
       }
       
       .search-box button:hover {
         transform: scale(1.1);
+      }
+      
+      @media (max-width: 480px) {
+        .search-box {
+          min-width: 120px;
+          padding: 0.4rem 0.7rem;
+          gap: 0.3rem;
+        }
+        
+        .search-box input {
+          font-size: 0.85rem;
+        }
+        
+        .search-box input::placeholder {
+          font-size: 0.75rem;
+        }
+        
+        .search-box button {
+          font-size: 1rem;
+        }
+      }
+      
+      @media (max-width: 360px) {
+        .search-box {
+          min-width: 100px;
+          padding: 0.3rem 0.5rem;
+        }
+        
+        .search-box input {
+          font-size: 0.8rem;
+        }
+        
+        .search-box input::placeholder {
+          font-size: 0.7rem;
+        }
+        
+        .search-box button {
+          font-size: 0.9rem;
+        }
       }
       
       main {
@@ -1043,7 +1087,15 @@
         .header-content {
           flex-direction: row;
           justify-content: space-between;
-          align-items: flex-start;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        
+        header h1 {
+          font-size: 1.2rem;
+          margin: 0;
+          padding-top: 0;
+          flex-shrink: 0;
         }
         
         nav {
@@ -1052,35 +1104,98 @@
         
         .controls {
           display: flex;
-          gap: 0.5rem;
+          gap: 0.4rem;
           margin-left: auto;
           margin-top: 0;
           padding-top: 0;
+          flex-wrap: nowrap;
+          align-items: center;
+          flex: 1;
+          justify-content: flex-end;
         }
         
         .controls button {
-          padding: 0.2rem 0.5rem;
-          font-size: 0.7rem;
+          padding: 0.4rem 0.8rem;
+          font-size: 0.75rem;
           margin: 0;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
         
         .search-box {
-          min-width: 150px;
-          padding: 0.4rem 0.8rem;
+          min-width: 120px;
+          max-width: 100%;
+          padding: 0.4rem 0.7rem;
+          flex: 1;
+          margin-right: 0.5rem;
         }
         
         .search-box input {
-          font-size: 0.8rem;
+          font-size: 0.85rem;
         }
         
         .search-box input::placeholder {
           font-size: 0.75rem;
         }
         
-        header h1 {
-          font-size: 1.2rem;
-          margin: 0;
-          padding-top: 0;
+        .search-box button {
+          font-size: 1rem;
+        }
+        
+        @media (max-width: 480px) {
+          .header-content {
+            flex-wrap: nowrap;
+            gap: 0.5rem;
+          }
+          
+          header h1 {
+            font-size: 1.1rem;
+            flex: 0 0 auto;
+            margin-right: 0.5rem;
+          }
+          
+          .controls {
+            flex: 1;
+            margin-top: 0;
+            order: 0;
+            justify-content: flex-end;
+          }
+          
+          .search-box {
+            flex: 1;
+            min-width: 120px;
+            margin-right: 0.5rem;
+          }
+          
+          .controls button {
+            flex-shrink: 0;
+          }
+        }
+        
+        @media (max-width: 360px) {
+          header h1 {
+            font-size: 1rem;
+            margin-right: 0.3rem;
+          }
+          
+          .search-box {
+            min-width: 100px;
+            padding: 0.35rem 0.6rem;
+            margin-right: 0.3rem;
+          }
+          
+          .search-box input {
+            font-size: 0.8rem;
+          }
+          
+          .search-box input::placeholder {
+            font-size: 0.7rem;
+          }
+          
+          .controls button {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.7rem;
+          }
         }
         
         .slider {
