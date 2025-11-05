@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Acessibilidade+</title>
+    <title>inclui+</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -60,7 +60,7 @@
       header h1 {
         font-size: 1.8rem;
         font-weight: 700;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -86,14 +86,14 @@
       }
       
       nav button:hover {
-        background: rgba(99, 102, 241, 0.1);
+        background: rgba(220, 38, 38, 0.1);
         transform: translateY(-2px);
       }
       
       nav button.active {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         color: white;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
       }
       
       .controls {
@@ -103,7 +103,7 @@
       }
       
       .controls button {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         color: white;
         border: none;
         border-radius: 10px;
@@ -111,12 +111,12 @@
         font-weight: 500;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
       }
       
       .controls button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
       }
       
       main {
@@ -137,6 +137,28 @@
         to {
           opacity: 1;
           transform: translateY(0);
+        }
+      }
+      
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
         }
       }
       
@@ -635,18 +657,18 @@
         padding: 1rem;
         border: none;
         border-radius: 10px;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         color: white;
         font-weight: 600;
         font-size: 1rem;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
       }
       
       .modal-content button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
       }
       
       .link {
@@ -812,7 +834,7 @@
       }
       
       .btn-apply {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         color: white;
       }
       
@@ -852,8 +874,8 @@
         align-items: start;
       }
       
-      .article-category, .topic-category {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        .article-category, .topic-category {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         color: white;
         padding: 0.4rem 1rem;
         border-radius: 20px;
@@ -882,7 +904,7 @@
       }
       
       .apply-btn {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         color: white;
         border: none;
         padding: 0.8rem 2rem;
@@ -894,7 +916,7 @@
       
       .apply-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
       }
       
       .job-footer {
@@ -924,7 +946,7 @@
       }
       
       .filter-btn.active {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: linear-gradient(135deg, #dc2626, #ef4444);
         color: white;
         border-color: transparent;
       }
@@ -1047,7 +1069,7 @@
   <body>
     <header>
       <div class="header-content">
-        <h1>✨ Acessibilidade+</h1>
+        <h1>✨ inclui+</h1>
       <nav>
         <button class="active" onclick="showPage('home', event)">Início</button>
         <button onclick="showPage('blog', event)">Blog</button>
@@ -1780,7 +1802,7 @@
         <div class="footer-section">
           <h3>📍 Endereço</h3>
           <p>
-            <strong>Acessibilidade+</strong><br>
+            <strong>inclui+</strong><br>
             Rua Principal, 123<br>
             Centro<br>
             Toledo - PR, 85900-000<br>
@@ -1829,7 +1851,7 @@
       </div>
       
       <div class="footer-bottom">
-        <p>© 2025 Acessibilidade+. Todos os direitos reservados. | Construindo um mundo mais inclusivo 🌍</p>
+        <p>© 2025 inclui+. Todos os direitos reservados. | Construindo um mundo mais inclusivo 🌍</p>
       </div>
     </footer>
 
@@ -1914,6 +1936,31 @@
           </div>
           
           <button class="btn-reset" onclick="resetColors()" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">🔄 Voltar ao Normal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Controle de Voz -->
+    <div class="modal" id="voice-modal" role="dialog" aria-modal="true" onclick="if(event.target.id === 'voice-modal') closeVoiceModal()" style="display: none;">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <h2>🎤 Controle de Voz</h2>
+        <p id="voice-status" style="text-align: center; color: #666; margin-bottom: 2rem; font-size: 1.1rem;">
+          Clique em "Iniciar" para começar a usar comandos de voz.<br>
+          <small style="color: #999; font-size: 0.9rem;">Você precisará permitir o acesso ao microfone.</small>
+        </p>
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+          <button onclick="startVoiceRecognition()" class="apply-btn" style="flex: 1;">🎤 Iniciar</button>
+          <button onclick="closeVoiceModal()" style="flex: 1; padding: 1rem; background: #e5e7eb; color: #333; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">Cancelar</button>
+        </div>
+        <div style="margin-top: 2rem; padding: 1rem; background: #f0f0f5; border-radius: 10px;">
+          <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;"><strong>Comandos disponíveis:</strong></p>
+          <ul style="font-size: 0.85rem; color: #666; margin: 0; padding-left: 1.5rem;">
+            <li>Diga "início" ou "home" para ir à página inicial</li>
+            <li>Diga "blog" para acessar o blog</li>
+            <li>Diga "fórum" para acessar o fórum</li>
+            <li>Diga "vagas" para ver as vagas</li>
+            <li>Diga "contato" para a página de contato</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -2076,15 +2123,36 @@
 
       function toggleVoiceControl() {
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          // Mostrar modal informativa antes de solicitar permissão
+          showVoiceModal();
+        } else {
+          // Criar notificação visual em vez de alert
+          showNotification("Seu navegador não suporta reconhecimento de voz.", "error");
+        }
+      }
+      
+      function startVoiceRecognition() {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
           const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
           const recognition = new SpeechRecognition();
           recognition.lang = 'pt-BR';
           recognition.continuous = false;
           recognition.interimResults = false;
           
+          // Atualizar modal para mostrar que está ouvindo
+          const voiceModal = document.getElementById('voice-modal');
+          const voiceStatus = document.getElementById('voice-status');
+          if (voiceStatus) {
+            voiceStatus.textContent = '🎤 Ouvindo... Fale o comando desejado.';
+            voiceStatus.style.color = '#10b981';
+          }
+          
           recognition.onresult = function(event) {
             const command = event.results[0][0].transcript.toLowerCase();
-            alert("Comando recebido: " + command);
+            closeVoiceModal();
+            
+            // Mostrar notificação visual do comando
+            showNotification("Comando: " + command, "success");
             
             // Comandos de navegação por voz
             if (command.includes('início') || command.includes('home')) {
@@ -2101,13 +2169,75 @@
           };
           
           recognition.onerror = function(event) {
-            alert("Erro no reconhecimento de voz: " + event.error);
+            closeVoiceModal();
+            if (event.error === 'no-speech') {
+              showNotification("Nenhum comando detectado. Tente novamente.", "error");
+            } else if (event.error === 'not-allowed') {
+              showNotification("Permissão de microfone negada. Por favor, permita o acesso ao microfone.", "error");
+            } else {
+              showNotification("Erro: " + event.error, "error");
+            }
           };
           
-          recognition.start();
-        } else {
-          alert("Seu navegador não suporta reconhecimento de voz.");
+          recognition.onend = function() {
+            closeVoiceModal();
+          };
+          
+          try {
+            recognition.start();
+          } catch (e) {
+            closeVoiceModal();
+            showNotification("Erro ao iniciar reconhecimento de voz.", "error");
+          }
         }
+      }
+      
+      function showVoiceModal() {
+        const modal = document.getElementById('voice-modal');
+        if (modal) {
+          modal.style.display = 'flex';
+        }
+      }
+      
+      function closeVoiceModal() {
+        const modal = document.getElementById('voice-modal');
+        if (modal) {
+          modal.style.display = 'none';
+        }
+      }
+      
+      function showNotification(message, type) {
+        // Remover notificação anterior se existir
+        const existing = document.getElementById('voice-notification');
+        if (existing) {
+          existing.remove();
+        }
+        
+        // Criar nova notificação
+        const notification = document.createElement('div');
+        notification.id = 'voice-notification';
+        notification.style.cssText = `
+          position: fixed;
+          top: 100px;
+          right: 30px;
+          background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#2563eb'};
+          color: white;
+          padding: 1rem 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+          z-index: 10000;
+          animation: slideInRight 0.3s ease;
+          max-width: 300px;
+          font-weight: 500;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        // Remover após 3 segundos
+        setTimeout(() => {
+          notification.style.animation = 'slideOutRight 0.3s ease';
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
       }
 
       function adjustFont(change) {
@@ -2200,5 +2330,6 @@
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
       </svg>
     </a>
+
   </body>
 </html>
