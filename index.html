@@ -163,10 +163,32 @@
         color: #dc2626;
         font-size: 1.2rem;
         flex-shrink: 0;
+        transition: all 0.2s ease;
       }
       
       .search-box button:hover {
         transform: scale(1.1);
+      }
+      
+      .search-box .google-search-btn {
+        color: #4285f4;
+        margin-left: 0.25rem;
+        font-weight: bold;
+        font-size: 1.1rem;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(66, 133, 244, 0.1);
+        transition: all 0.2s ease;
+      }
+      
+      .search-box .google-search-btn:hover {
+        color: white;
+        background: #4285f4;
+        transform: scale(1.15);
       }
       
       @media (max-width: 480px) {
@@ -271,6 +293,28 @@
         }
       }
       
+      @keyframes slideInDown {
+        from {
+          transform: translate(-50%, -100%);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideOutUp {
+        from {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+        to {
+          transform: translate(-50%, -100%);
+          opacity: 0;
+        }
+      }
+      
       .slider {
         position: relative;
         width: 100vw;
@@ -345,31 +389,38 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: transparent;
-        border: none;
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid rgba(220, 38, 38, 0.3);
         width: 50px;
         height: 50px;
         border-radius: 50%;
         cursor: pointer;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         font-weight: bold;
-        color: transparent;
+        color: #dc2626;
         transition: all 0.3s ease;
-        box-shadow: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 3;
-        opacity: 0;
+        opacity: 0.8;
         pointer-events: auto;
       }
       
+      .slider:hover button {
+        opacity: 1;
+      }
+      
       .slider button:hover {
-        opacity: 0;
+        background: rgba(255, 255, 255, 1);
+        border-color: #dc2626;
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
       }
       
       .slider button:active {
-        opacity: 0;
+        transform: translateY(-50%) scale(0.95);
       }
       
       .slider .prev {
@@ -805,6 +856,53 @@
       .modal-content button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+      }
+      
+      /* Estilo específico para o modal de voz - menor e mais bonito */
+      #voice-modal .modal-content {
+        max-width: 380px;
+        width: auto;
+        padding: 2rem 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      }
+      
+      #voice-modal .modal-content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      #voice-modal #voice-status {
+        font-size: 1rem !important;
+        margin-bottom: 1rem !important;
+        line-height: 1.5;
+      }
+      
+      #voice-modal #voice-status small {
+        font-size: 0.85rem !important;
+        display: block;
+        margin-top: 0.5rem;
+      }
+      
+      #voice-modal .modal-content > div:first-of-type {
+        margin-top: 1rem !important;
+      }
+      
+      #voice-modal button {
+        padding: 0.75rem 1.5rem !important;
+        font-size: 0.95rem !important;
+        border-radius: 10px !important;
+        transition: all 0.2s ease !important;
+      }
+      
+      #voice-modal button:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
       }
       
       .link {
@@ -1249,6 +1347,21 @@
           height: 300px;
         }
         
+        .slider button {
+          width: 40px;
+          height: 40px;
+          font-size: 1.2rem;
+          opacity: 0.9;
+        }
+        
+        .slider .prev {
+          left: 10px;
+        }
+        
+        .slider .next {
+          right: 10px;
+        }
+        
         .slider img {
           width: 100%;
           height: 100%;
@@ -1306,8 +1419,9 @@
       </nav>
       <div class="controls">
           <div class="search-box">
-            <input type="text" id="search-input" placeholder="🔍 Pesquisar..." onkeypress="handleSearch(event)">
-            <button onclick="performSearch()" aria-label="Pesquisar">🔍</button>
+            <input type="text" id="search-input" placeholder="🔍 Pesquisar... (Ctrl+G para Google)" onkeypress="handleSearch(event)" onkeydown="handleSearchKeydown(event)">
+            <button onclick="performSearch()" aria-label="Pesquisar no site" title="Pesquisar no site" class="search-lupa-btn" style="display: none;">🔍</button>
+            <button onclick="searchOnGoogle()" aria-label="Buscar no Google (Ctrl+G)" title="Buscar no Google (Ctrl+G)" class="google-search-btn">G</button>
           </div>
           <button onclick="toggleLogin()">🔐 Entrar</button>
         </div>
@@ -2174,23 +2288,12 @@
     <div class="modal" id="voice-modal" role="dialog" aria-modal="true" onclick="if(event.target.id === 'voice-modal') closeVoiceModal()" style="display: none;">
       <div class="modal-content" onclick="event.stopPropagation()">
         <h2>🎤 Controle de Voz</h2>
-        <p id="voice-status" style="text-align: center; color: #666; margin-bottom: 2rem; font-size: 1.1rem;">
-          Clique em "Iniciar" para começar a usar comandos de voz.<br>
-          <small style="color: #999; font-size: 0.9rem;">Você precisará permitir o acesso ao microfone.</small>
+        <p id="voice-status" style="text-align: center; color: #666;">
+          Aguardando permissão do microfone...<br>
+          <small>Por favor, permita o acesso ao microfone no navegador.</small>
         </p>
-        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-          <button onclick="startVoiceRecognition()" class="apply-btn" style="flex: 1;">🎤 Iniciar</button>
-          <button onclick="closeVoiceModal()" style="flex: 1; padding: 1rem; background: #e5e7eb; color: #333; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">Cancelar</button>
-        </div>
-        <div style="margin-top: 2rem; padding: 1rem; background: #f0f0f5; border-radius: 10px;">
-          <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;"><strong>Comandos disponíveis:</strong></p>
-          <ul style="font-size: 0.85rem; color: #666; margin: 0; padding-left: 1.5rem;">
-            <li>Diga "início" ou "home" para ir à página inicial</li>
-            <li>Diga "blog" para acessar o blog</li>
-            <li>Diga "fórum" para acessar o fórum</li>
-            <li>Diga "vagas" para ver as vagas</li>
-            <li>Diga "contato" para a página de contato</li>
-          </ul>
+        <div style="display: flex; gap: 0.75rem; justify-content: center;">
+          <button onclick="closeVoiceModal()" style="padding: 0.75rem 1.5rem; background: #e5e7eb; color: #333; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">Fechar</button>
         </div>
       </div>
     </div>
@@ -2413,6 +2516,31 @@
         }
       }
       
+      function handleSearchKeydown(event) {
+        // Ctrl+G ou Cmd+G para buscar no Google
+        if ((event.ctrlKey || event.metaKey) && event.key === 'g') {
+          event.preventDefault();
+          searchOnGoogle();
+        }
+      }
+      
+      function searchOnGoogle() {
+        const searchInput = document.getElementById('search-input');
+        const query = searchInput.value.trim();
+        
+        if (!query) {
+          showNotification("Digite algo para buscar no Google", "error");
+          return;
+        }
+        
+        // Abrir busca do Google em nova aba
+        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        window.open(googleSearchUrl, '_blank');
+        
+        // Mostrar notificação de sucesso
+        showNotification(`Buscando "${query}" no Google...`, "success");
+      }
+      
       function showSearchResults(results, query) {
         // Criar modal de resultados
         let modal = document.getElementById('search-results-modal');
@@ -2592,33 +2720,43 @@
 
       function toggleVoiceControl() {
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-          // Mostrar modal informativa antes de solicitar permissão
-          showVoiceModal();
+          // Solicitar permissão de microfone diretamente
+          startVoiceRecognition();
         } else {
           // Criar notificação visual em vez de alert
           showNotification("Seu navegador não suporta reconhecimento de voz.", "error");
         }
       }
       
-      function startVoiceRecognition() {
+      async function startVoiceRecognition() {
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          // Mostrar notificação no topo imediatamente
+          showNotification("🎤 Permitir acesso ao microfone para usar comandos de voz", "success", 4000);
+          
+          // Solicitar permissão do microfone automaticamente usando getUserMedia
+          try {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+              await navigator.mediaDevices.getUserMedia({ audio: true });
+              // Permissão concedida, agora iniciar reconhecimento
+            }
+          } catch (err) {
+            // Se der erro, continuar mesmo assim (pode já ter permissão)
+            console.log("Permissão de microfone:", err);
+          }
+          
           const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
           const recognition = new SpeechRecognition();
           recognition.lang = 'pt-BR';
           recognition.continuous = false;
           recognition.interimResults = false;
           
-          // Atualizar modal para mostrar que está ouvindo
-          const voiceModal = document.getElementById('voice-modal');
-          const voiceStatus = document.getElementById('voice-status');
-          if (voiceStatus) {
-            voiceStatus.textContent = '🎤 Ouvindo... Fale o comando desejado.';
-            voiceStatus.style.color = '#10b981';
-          }
+          recognition.onstart = function() {
+            // Mostrar notificação quando o reconhecimento começar
+            showNotification("🎤 Ouvindo... Fale o comando desejado.", "success");
+          };
           
           recognition.onresult = function(event) {
             const command = event.results[0][0].transcript.toLowerCase();
-            closeVoiceModal();
             
             // Mostrar notificação visual do comando
             showNotification("Comando: " + command, "success");
@@ -2638,25 +2776,24 @@
           };
           
           recognition.onerror = function(event) {
-            closeVoiceModal();
             if (event.error === 'no-speech') {
               showNotification("Nenhum comando detectado. Tente novamente.", "error");
             } else if (event.error === 'not-allowed') {
-              showNotification("Permissão de microfone negada. Por favor, permita o acesso ao microfone.", "error");
+              showNotification("Permissão de microfone negada. Por favor, permita o acesso ao microfone nas configurações do navegador.", "error");
             } else {
               showNotification("Erro: " + event.error, "error");
             }
           };
           
           recognition.onend = function() {
-            closeVoiceModal();
+            // Não precisa fazer nada ao terminar
           };
           
           try {
-          recognition.start();
+            // Iniciar reconhecimento (a permissão já foi solicitada acima)
+            recognition.start();
           } catch (e) {
-            closeVoiceModal();
-            showNotification("Erro ao iniciar reconhecimento de voz.", "error");
+            showNotification("Erro ao iniciar reconhecimento de voz. Verifique as permissões do microfone.", "error");
           }
         }
       }
@@ -2675,7 +2812,7 @@
         }
       }
       
-      function showNotification(message, type) {
+      function showNotification(message, type, duration = 3000) {
         // Remover notificação anterior se existir
         const existing = document.getElementById('voice-notification');
         if (existing) {
@@ -2685,28 +2822,45 @@
         // Criar nova notificação
         const notification = document.createElement('div');
         notification.id = 'voice-notification';
+        // Verificar se é a mensagem de permissão do microfone para mostrar no topo
+        const isMicrophoneMessage = message.includes('Permitir acesso ao microfone');
+        const positionStyle = isMicrophoneMessage 
+          ? 'top: 20px; left: 50%; transform: translateX(-50%);' 
+          : 'top: 100px; right: 30px;';
+        const animationStyle = isMicrophoneMessage 
+          ? 'slideInDown 0.3s ease' 
+          : 'slideInRight 0.3s ease';
+        
         notification.style.cssText = `
           position: fixed;
-          top: 100px;
-          right: 30px;
+          ${positionStyle}
           background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#2563eb'};
           color: white;
           padding: 1rem 1.5rem;
           border-radius: 10px;
           box-shadow: 0 4px 20px rgba(0,0,0,0.3);
           z-index: 10000;
-          animation: slideInRight 0.3s ease;
-          max-width: 300px;
+          animation: ${animationStyle};
+          max-width: ${isMicrophoneMessage ? '500px' : '350px'};
           font-weight: 500;
+          font-size: 0.95rem;
+          text-align: center;
         `;
         notification.textContent = message;
         document.body.appendChild(notification);
         
-        // Remover após 3 segundos
+        // Remover após o tempo especificado
         setTimeout(() => {
-          notification.style.animation = 'slideOutRight 0.3s ease';
-          setTimeout(() => notification.remove(), 300);
-        }, 3000);
+          const exitAnimation = isMicrophoneMessage ? 'slideOutUp 0.3s ease' : 'slideOutRight 0.3s ease';
+          if (notification.parentNode) {
+            notification.style.animation = exitAnimation;
+            setTimeout(() => {
+              if (notification.parentNode) {
+                notification.remove();
+              }
+            }, 300);
+          }
+        }, duration);
       }
 
       function adjustFont(change) {
