@@ -1419,7 +1419,7 @@
       </nav>
       <div class="controls">
           <div class="search-box">
-            <input type="text" id="search-input" placeholder="🔍 Pesquisar... (Ctrl+G para Google)" onkeypress="handleSearch(event)" onkeydown="handleSearchKeydown(event)">
+            <input type="text" id="search-input" placeholder="🔍 Pesquisar... (Ctrl+G para Google)" onkeypress="handleSearch(event)" onkeydown="handleSearchKeydown(event)" oninput="handleSearchInput(event)">
             <button onclick="performSearch()" aria-label="Pesquisar no site" title="Pesquisar no site" class="search-lupa-btn" style="display: none;">🔍</button>
             <button onclick="searchOnGoogle()" aria-label="Buscar no Google (Ctrl+G)" title="Buscar no Google (Ctrl+G)" class="google-search-btn">G</button>
           </div>
@@ -2376,7 +2376,7 @@
         const query = searchInput.value.trim().toLowerCase();
         
         if (!query) {
-          showNotification("Digite algo para pesquisar", "error");
+          // Não mostrar erro se for busca automática (campo vazio)
           return;
         }
         
@@ -2510,10 +2510,42 @@
         }
       }
       
+      // Variável para armazenar o timeout da busca automática
+      let searchTimeout = null;
+      
       function handleSearch(event) {
         if (event.key === 'Enter') {
+          // Limpar timeout se existir
+          if (searchTimeout) {
+            clearTimeout(searchTimeout);
+            searchTimeout = null;
+          }
           performSearch();
         }
+      }
+      
+      function handleSearchInput(event) {
+        const query = event.target.value.trim();
+        
+        // Limpar timeout anterior se existir
+        if (searchTimeout) {
+          clearTimeout(searchTimeout);
+        }
+        
+        // Se o campo estiver vazio, não buscar
+        if (!query) {
+          // Fechar resultados se estiverem abertos
+          const modal = document.getElementById('search-results-modal');
+          if (modal) {
+            modal.remove();
+          }
+          return;
+        }
+        
+        // Aguardar 500ms após o usuário parar de digitar antes de buscar
+        searchTimeout = setTimeout(() => {
+          performSearch();
+        }, 500);
       }
       
       function handleSearchKeydown(event) {
@@ -2533,12 +2565,25 @@
           return;
         }
         
-        // Abrir busca do Google em nova aba
-        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        // Obter o domínio atual do site
+        let siteDomain = window.location.hostname;
+        
+        // Se estiver em localhost ou file://, usar um domínio padrão ou apenas a query
+        if (siteDomain === 'localhost' || siteDomain === '127.0.0.1' || siteDomain === '' || window.location.protocol === 'file:') {
+          // Para desenvolvimento local, buscar apenas no conteúdo do site atual
+          // Usar a busca local em vez do Google
+          performSearch();
+          showNotification(`Buscando "${query}" no site...`, "success");
+          return;
+        }
+        
+        // Adicionar parâmetro site: para buscar apenas no domínio atual
+        const siteQuery = `site:${siteDomain} ${query}`;
+        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(siteQuery)}`;
         window.open(googleSearchUrl, '_blank');
         
         // Mostrar notificação de sucesso
-        showNotification(`Buscando "${query}" no Google...`, "success");
+        showNotification(`Buscando "${query}" no site...`, "success");
       }
       
       function showSearchResults(results, query) {
